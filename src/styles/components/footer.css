@@ -1,0 +1,51 @@
+/* ============================================================
+   Component: footer (BEM)
+   ============================================================ */
+
+.footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-2xl);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.footer__name {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.footer__legal {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__link { color: var(--color-text-muted); }
+.footer__link:hover { color: var(--color-primary); }
+
+.footer__bottom {
+  margin-top: var(--space-2xl);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-lg);
+  text-align: center;
+}
+
+.footer__copyright { color: var(--color-text-muted); font-size: var(--text-sm); }
+
+@media (max-width: 720px) {
+  .footer__inner { grid-template-columns: 1fr; gap: var(--space-lg); }
+}

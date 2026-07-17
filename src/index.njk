@@ -1,0 +1,60 @@
+---
+layout: layouts/base.njk
+title: Heim
+---
+{#-
+  Homepage. This is deliberately a lean, structural starting point — Hanna owns
+  the visual flair. Sections use BEM classes so styling drops in cleanly.
+  Content is baked at build time (great SEO), JS only enhances.
+-#}
+
+<section class="hero" id="top">
+  <div class="container hero__inner">
+    <h1 class="hero__title">{{ site.name }}</h1>
+    <p class="hero__subtitle">{{ site.description }}</p>
+    <div class="hero__actions">
+      <a href="/#events" class="button button--primary">Sí tiltøk</a>
+      <a href="/#contact" class="button button--secondary">Ver við</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <h2 class="section__title" id="about-title">Um okkum</h2>
+    <p class="section__lead">
+      {{ site.name }} varð stovnað {{ site.founded }} og hevur til endamáls at fremja
+      telduspælmentan og spælmenning í Føroyum.
+      {# TODO(Hanna): fyll út við longri lýsing, myndum og persónligum tekstí. #}
+    </p>
+  </div>
+</section>
+
+<section class="section" id="events" aria-labelledby="events-title">
+  <div class="container">
+    <h2 class="section__title" id="events-title">Tiltøk</h2>
+    <p class="section__lead">
+      {# TODO(Hanna): lat inn komandi game jam — dato, staður, tilmelding. #}
+      Komandi game jam verður kunngjørt her.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="sponsors" aria-labelledby="sponsors-title">
+  <div class="container">
+    <h2 class="section__title" id="sponsors-title">Stuðlar</h2>
+    <p class="section__lead">
+      {# TODO(Hanna): stuðlalogo grid. #}
+      Takk til øll, ið stuðla {{ site.name }}.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <h2 class="section__title" id="contact-title">Samband</h2>
+    <p class="section__lead">
+      Skriva okkum á <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
+    </p>
+  </div>
+</section>

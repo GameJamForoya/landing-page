@@ -1,0 +1,32 @@
+{#-
+  Site footer. Includes the legal-identity line (org name + V-tal) required for
+  the gj.fo domain ↔ org verification — see the Google Workspace for Nonprofits
+  progress fragment in the GameJam Foroyar Usable workspace. Keep it in the footer.
+-#}
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <p class="footer__name">{{ site.name }}</p>
+      <p class="footer__legal">
+        {{ site.orgType }} · V-tal {{ site.vtal }}<br>
+        {{ site.address }}
+      </p>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer">
+      <ul class="footer__links" role="list">
+        {%- for item in site.nav %}
+        <li><a href="{{ item.url }}" class="footer__link">{{ item.text }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    <div class="footer__contact">
+      <a href="mailto:{{ site.email }}" class="footer__link">{{ site.email }}</a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <p class="footer__copyright">&copy; {% year %} {{ site.legalName }}. Øll rættindi ásett.</p>
+  </div>
+</footer>
