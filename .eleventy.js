@@ -13,11 +13,30 @@
  */
 const fs = require("fs");
 const Image = require("@11ty/eleventy-img");
+const { HtmlBasePlugin } = require("@11ty/eleventy");
 
 // The one logo source Hanna drops in; everything else is generated from it.
 const LOGO_SRC = "src/assets/images/gamejam-logo.png";
 
+/* ---- Base path (makes the build portable) -----------------------------
+   The site uses root-absolute links, so the base path must match wherever
+   it is served. We derive it automatically:
+     · dev server (localhost)     → "/"            (served at root)
+     · custom domain (CNAME set)  → "/"            (gj.fo, served at root)
+     · plain GitHub project page  → "/landing-page/" (served in a subfolder)
+   So the same repo renders correctly on localhost, on the github.io project
+   URL, AND on gj.fo — with no manual switch. Adding src/public/CNAME (the
+   gj.fo cutover) flips it to root automatically. */
+const IS_DEV =
+  process.env.ELEVENTY_RUN_MODE === "serve" ||
+  process.env.ELEVENTY_RUN_MODE === "watch";
+const HAS_CUSTOM_DOMAIN = fs.existsSync("src/public/CNAME");
+const PATH_PREFIX =
+  IS_DEV || HAS_CUSTOM_DOMAIN ? "/" : "/landing-page/";
+
 module.exports = function (eleventyConfig) {
+  // Rewrites root-relative URLs in output HTML to include PATH_PREFIX.
+  eleventyConfig.addPlugin(HtmlBasePlugin);
   // Copy static assets straight through to the output, unprocessed.
   eleventyConfig.addPassthroughCopy({ "src/styles": "styles" });
   eleventyConfig.addPassthroughCopy({ "src/scripts": "scripts" });
@@ -92,6 +111,7 @@ module.exports = function (eleventyConfig) {
       includes: "_includes",
       data: "_data",
     },
+    pathPrefix: PATH_PREFIX,
     // Let plain .html files flow through the Nunjucks engine so partials work in them too.
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",

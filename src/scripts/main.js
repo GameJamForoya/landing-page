@@ -72,12 +72,14 @@
   var gameTriggers = document.querySelectorAll("[data-game-trigger]");
   var gameLoading = false;
 
-  function loadGame(done) {
+  function loadGame(src, done) {
     if (window.GJGame) { done(); return; }
     if (gameLoading) return;
     gameLoading = true;
     var s = document.createElement("script");
-    s.src = "/scripts/game.js";
+    // Path is base-aware (rendered through Eleventy's url filter); falls back
+    // to the root-absolute path if the attribute is somehow missing.
+    s.src = src || "/scripts/game.js";
     s.onload = function () { gameLoading = false; if (window.GJGame) done(); };
     s.onerror = function () { gameLoading = false; };
     document.head.appendChild(s);
@@ -87,7 +89,8 @@
     var origin = event.currentTarget;
     event.preventDefault();
     var heroEl = document.querySelector(".hero");
-    loadGame(function () {
+    var gameSrc = heroEl && heroEl.getAttribute("data-game-src");
+    loadGame(gameSrc, function () {
       window.GJGame.start({
         hero: heroEl,
         shipSrc: heroEl && heroEl.getAttribute("data-ship-src"),

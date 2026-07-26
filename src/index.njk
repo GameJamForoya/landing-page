@@ -8,7 +8,9 @@ title: Heim
   JS only enhances — the page is fully readable without it.
 -#}
 
-<section class="hero" id="top" data-ship-src="/img/space_ship.png">
+<section class="hero" id="top"
+         data-ship-src="{{ '/img/space_ship.png' | url }}"
+         data-game-src="{{ '/scripts/game.js' | url }}">
   <div class="container hero__inner">
     <div class="hero__copy">
       {#- "Spæl" is its own element: styled as the statement word, and the
