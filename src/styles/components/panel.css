@@ -1,0 +1,54 @@
+/* ============================================================
+   Component: panel (BEM)
+   White card that lifts section content off the light body.
+   ============================================================ */
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-md);
+}
+
+/* Event highlight — a warm red-tinted card */
+.panel--highlight {
+  border-color: color-mix(in srgb, var(--brand-red) 45%, var(--color-border));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--brand-red) 8%, #fff), var(--color-surface));
+}
+
+/* Small red badge, e.g. an event date pill */
+.badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background: var(--brand-red-strong);
+  color: #fff;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.panel__title {
+  margin-block: var(--space-md) var(--space-sm);
+  font-size: var(--text-2xl);
+}
+
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+/* Contact email / phone — readable dark-teal links on the white panel */
+.contact__links {
+  margin-top: var(--space-md);
+  font-size: var(--text-lg);
+  line-height: 2;
+}
+
+@media (max-width: 720px) {
+  .panel { padding: var(--space-xl); }
+}

@@ -1,0 +1,28 @@
+/* ============================================================
+   Component: sponsors (BEM)
+   Thank-you row for supporters. Name chips for now; swap in
+   real logo images when they are available.
+   ============================================================ */
+
+.sponsors__grid {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.sponsors__item {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* When a sponsor logo image is used instead of text */
+.sponsors__logo { max-height: 2.25rem; width: auto; }

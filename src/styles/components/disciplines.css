@@ -1,0 +1,47 @@
+/* ============================================================
+   Component: disciplines (BEM)
+   The "Royn teg innan" grid — the nine ways to take part.
+   White cards on the light body, teal labels, red marker.
+   ============================================================ */
+
+.disciplines__grid {
+  list-style: none;
+  display: grid;
+  /* min(100%, …) lets cards drop to a single full-width column on phones,
+     so long labels like PROJEKTLEIÐSLA never crowd a narrow screen. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.disciplines__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  color: var(--brand-teal-deep);
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+}
+.disciplines__item:hover {
+  transform: translateY(-3px);
+  background: var(--brand-blue-soft);
+  border-color: var(--brand-blue);
+}
+
+/* Little red marker before each label */
+.disciplines__item::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: var(--radius-full);
+  background: var(--brand-red);
+}

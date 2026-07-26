@@ -1,0 +1,80 @@
+---
+layout: layouts/base.njk
+title: Um okkum
+description: GameJam Føroya er ein áhugafelagsskapur, sum arbeiðir fyri at menna og stuðla føroysku spælvinnuni.
+---
+
+<section class="section page-head">
+  <div class="container">
+    <h1 class="page-head__title">Um okkum</h1>
+    <p class="section__lead">
+      {{ site.name }} er ein áhugafelagsskapur, sum arbeiðir fyri at menna og
+      stuðla føroysku spælvinnuni.
+    </p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="what-title">
+  <div class="container">
+    <div class="panel">
+      <h2 class="section__title" id="what-title">Hvat gera vit?</h2>
+      <p class="section__lead">
+        Vit skipa fyri tiltøkum, verkstovum og fyrilestrum – alt innan fyri
+        spælmenning. Best kend eru vit fyri árligu game jam-tiltøkini okkara,
+        har vit lata høli, evni, mat og vinningar til luttakararnar.
+      </p>
+      <p class="section__lead">
+        Eingin trýstur, eingin hørð kapping — bara avslappað skapanarorka, har
+        vit sita saman og gera spøl.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="jam-title">
+  <div class="container">
+    <h2 class="section__title" id="jam-title">Hvat er ein game jam?</h2>
+    <p class="section__lead">
+      Yvir eitt heilt vikuskifti (48 tímar) menna luttakararnir eitt spæl –
+      telduspæl ella borðspæl – út frá einum evni. Tú kanst vera við í einum
+      liði ella gera títt egna spæl. Tiltakið er 100% ókeypis fyri
+      luttakararnar.
+    </p>
+    <p class="section__lead">
+      Øll spølini, sum eru gjørd á tiltøkunum okkara, liggja alment frammi.
+      <a href="/tiltok/">Sí øll tiltøkini og spølini her.</a>
+    </p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="who-title">
+  <div class="container">
+    <h2 class="section__title" id="who-title">Hvør kann vera við?</h2>
+    <p class="section__lead">
+      Øll, ið hava áhuga í spølum og spælgerð. Tú skalt ikki kunna forrita fyri
+      at vera við — ein game jam livir av ymiskum evnum:
+    </p>
+    <ul class="disciplines__grid" role="list">
+      {%- for discipline in site.disciplines %}
+      <li class="disciplines__item">{{ discipline }}</li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="org-title">
+  <div class="container">
+    <div class="panel">
+      <h2 class="section__title" id="org-title">Felagsskapurin</h2>
+      <p class="section__lead">
+        {{ site.legalName }} varð stovnað {{ site.founded }} og er ein
+        {{ site.orgType | lower }} við V-tali {{ site.vtal }}.
+        Tiltøkini eru ókeypis fyri luttakararnar, og tí kunnu tey bara eydnast
+        við hjálp av stuðlum.
+      </p>
+      <p class="panel__actions">
+        <a href="/samband/" class="button button--primary">Fá samband</a>
+      </p>
+    </div>
+  </div>
+</section>

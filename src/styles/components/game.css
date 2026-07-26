@@ -1,0 +1,77 @@
+/* ============================================================
+   Component: game (BEM) — the hero easter egg
+   Only ever visible once a visitor triggers it. The canvas sits
+   over the hero; the logo stays a real DOM element underneath so
+   it can act as the boss.
+   ============================================================ */
+
+/* Triggers: a quiet hint that these are pressable */
+[data-game-trigger] { cursor: pointer; }
+
+.hero__mascot--filled[data-game-trigger] {
+  transition: transform var(--transition);
+}
+.hero__mascot--filled[data-game-trigger]:hover { transform: translateY(-4px); }
+.hero__mascot--filled[data-game-trigger]:focus-visible { outline: 3px solid var(--brand-blue); outline-offset: 6px; }
+
+/* While playing: the copy steps aside to clear the stage (space is kept,
+   so the hero doesn't resize mid-game) */
+.hero--playing .hero__copy {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 260ms ease;
+}
+.hero--playing .hero__mascot--filled:hover { transform: none; }
+
+.hero__game {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  touch-action: none;       /* dragging steers the ship, never scrolls */
+}
+
+.game__close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 4;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--on-teal-border);
+  border-radius: var(--radius-full);
+  background: rgba(2, 79, 70, 0.35);
+  color: var(--on-teal);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.game__close:hover { background: rgba(2, 79, 70, 0.6); }
+
+.game__msg {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: min(90%, 30rem);
+  text-align: center;
+  color: var(--on-teal);
+}
+
+.game__msg-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: #fff;
+}
+
+.game__msg-sub { color: var(--on-teal-muted); margin-bottom: var(--space-lg); }
+
+.game__msg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang }}" data-theme="light">
+<html lang="{{ site.lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,22 +17,24 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:locale" content="fo_FO">
 
-  {#- Favicon (drop the real asset into src/public/) -#}
+  {#- Favicon: generated from the logo once supplied, else the placeholder SVG -#}
+  {%- if assets.hasLogo %}
+  <link rel="icon" href="/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/img/favicon-180.png">
+  {%- else %}
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-
-  {#- Prevent theme flash before CSS/JS load -#}
-  <script>
-    (function () {
-      var saved = localStorage.getItem("theme");
-      var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.setAttribute("data-theme", saved || (systemDark ? "dark" : "light"));
-    })();
-  </script>
+  {%- endif %}
 
   {#- Base styles first, then BEM component styles (parallel <link>s, no @import) -#}
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/styles/components/nav.css">
   <link rel="stylesheet" href="/styles/components/hero.css">
+  <link rel="stylesheet" href="/styles/components/panel.css">
+  <link rel="stylesheet" href="/styles/components/video.css">
+  <link rel="stylesheet" href="/styles/components/game.css">
+  <link rel="stylesheet" href="/styles/components/disciplines.css">
+  <link rel="stylesheet" href="/styles/components/sponsors.css">
+  <link rel="stylesheet" href="/styles/components/events.css">
   <link rel="stylesheet" href="/styles/components/footer.css">
   {%- if extraStyles %}{% for href in extraStyles %}
   <link rel="stylesheet" href="{{ href }}">

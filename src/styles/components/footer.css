@@ -1,51 +1,125 @@
 /* ============================================================
    Component: footer (BEM)
+   Teal slab that closes the brand frame. Two blocks pushed to the
+   outer edges — brand + mission on the left, contact on the right —
+   then a centred legal-identity bar underneath.
    ============================================================ */
 
 .footer {
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-2xl);
+  background: var(--brand-teal);
+  padding-top: var(--space-3xl);
+  color: var(--on-teal-muted);
 }
 
 .footer__inner {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--space-2xl);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3xl);
   align-items: start;
+  padding-bottom: var(--space-2xl);
 }
 
+/* --- Brand --- */
 .footer__name {
   font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: var(--text-lg);
-  margin-bottom: var(--space-sm);
+  font-size: var(--text-2xl);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: #fff;
+  margin-bottom: var(--space-md);
 }
 
-.footer__legal {
-  color: var(--color-text-muted);
+.footer__mission {
+  color: var(--on-teal);
+  font-size: var(--text-lg);
+  max-width: 52ch;
+}
+
+/* --- Contact (sits flush to the right edge) --- */
+.footer__contact { text-align: right; }
+
+.footer__heading {
   font-size: var(--text-sm);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: var(--space-sm);
 }
 
 .footer__links {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
 }
 
-.footer__link { color: var(--color-text-muted); }
-.footer__link:hover { color: var(--color-primary); }
+.footer__link { color: var(--on-teal-muted); }
+.footer__link:hover { color: #fff; }
 
+.footer__social {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
+
+.footer__social-link {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--on-teal-border);
+  color: var(--on-teal);
+  font-size: var(--text-sm);
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.footer__social-link:hover {
+  background: rgba(244, 244, 244, 0.14);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* --- Legal identity bar: three columns across the full width --- */
 .footer__bottom {
-  margin-top: var(--space-2xl);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--on-teal-border);
   padding-block: var(--space-lg);
-  text-align: center;
 }
 
-.footer__copyright { color: var(--color-text-muted); font-size: var(--text-sm); }
+.footer__bottom .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 0.7fr);
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.footer__legal,
+.footer__identity,
+.footer__copyright {
+  font-size: var(--text-sm);
+  color: var(--on-teal-muted);
+  line-height: 1.6;
+}
+
+.footer__legal { color: var(--on-teal); }
+.footer__identity { text-align: center; }
+.footer__copyright { text-align: right; }
+
+@media (max-width: 860px) {
+  .footer__bottom .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    text-align: center;
+  }
+  .footer__identity,
+  .footer__copyright { text-align: center; }
+}
 
 @media (max-width: 720px) {
-  .footer__inner { grid-template-columns: 1fr; gap: var(--space-lg); }
+  .footer__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  .footer__contact { text-align: left; }
+  .footer__social { justify-content: flex-start; }
 }

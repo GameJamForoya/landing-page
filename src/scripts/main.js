@@ -35,4 +35,71 @@
       }
     });
   }
+
+  /* ---- Video facade ----
+     The poster is a normal link to YouTube (works without JS). Here we upgrade
+     it to play inline using the privacy-friendly youtube-nocookie player, which
+     is only requested once the visitor clicks — nothing loads on page view. */
+  var videoTrigger = document.querySelector(".video__button");
+
+  if (videoTrigger) {
+    videoTrigger.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      var id = videoTrigger.getAttribute("data-video-id");
+      if (!id) return;
+
+      var iframe = document.createElement("iframe");
+      iframe.className = "video__iframe";
+      iframe.src =
+        "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+      iframe.title = videoTrigger.getAttribute("aria-label") || "";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+
+      var frame = videoTrigger.closest(".video__frame");
+      frame.innerHTML = "";
+      frame.appendChild(iframe);
+      iframe.focus();
+    });
+  }
+
+  /* ---- Hero easter egg ----
+     Pressing "Spæl" or the logo starts a small boss fight. The game code is
+     fetched only on that first press, so visitors who never find it never
+     download it. Silently does nothing if the script fails to load. */
+  var gameTriggers = document.querySelectorAll("[data-game-trigger]");
+  var gameLoading = false;
+
+  function loadGame(done) {
+    if (window.GJGame) { done(); return; }
+    if (gameLoading) return;
+    gameLoading = true;
+    var s = document.createElement("script");
+    s.src = "/scripts/game.js";
+    s.onload = function () { gameLoading = false; if (window.GJGame) done(); };
+    s.onerror = function () { gameLoading = false; };
+    document.head.appendChild(s);
+  }
+
+  function launchGame(event) {
+    var origin = event.currentTarget;
+    event.preventDefault();
+    var heroEl = document.querySelector(".hero");
+    loadGame(function () {
+      window.GJGame.start({
+        hero: heroEl,
+        shipSrc: heroEl && heroEl.getAttribute("data-ship-src"),
+        returnFocusTo: origin
+      });
+    });
+  }
+
+  for (var g = 0; g < gameTriggers.length; g++) {
+    gameTriggers[g].addEventListener("click", launchGame);
+    gameTriggers[g].addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") launchGame(event);
+    });
+  }
 })();

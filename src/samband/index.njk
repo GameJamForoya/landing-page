@@ -1,0 +1,56 @@
+---
+layout: layouts/base.njk
+title: Samband
+description: Fá samband við GameJam Føroya — teldupostur, telefon og adressa.
+---
+
+<section class="section page-head">
+  <div class="container">
+    <h1 class="page-head__title">Fá samband</h1>
+    <p class="section__lead">
+      Hevur tú spurningar, vilt tú vera við, ella hugsar tú um at stuðla?
+      Vit hoyra gjarna frá tær.
+    </p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="reach-title">
+  <div class="container">
+    <div class="panel">
+      <h2 class="section__title" id="reach-title">Skriva ella ring</h2>
+      <p class="contact__links">
+        <a href="mailto:{{ site.email }}">{{ site.email }}</a><br>
+        <a href="tel:{{ site.phone | replace(' ', '') }}">{{ site.phone }}</a>
+      </p>
+      <p class="section__lead">{{ site.address }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sponsor-title">
+  <div class="container">
+    <h2 class="section__title" id="sponsor-title">Vilt tú stuðla?</h2>
+    <p class="section__lead">
+      Tiltøkini okkara eru 100% ókeypis fyri luttakararnar. Stuðulin verður
+      nýttur til ókeypis mat, drekka, vinningar og undirvísingartilfar.
+      Skriva okkum á <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
+      so senda vit tær eina lýsing av møguleikunum.
+    </p>
+    <p class="section__lead">
+      <a href="/#sponsors">Sí, hvørji stuðla okkum í dag.</a>
+    </p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="org-title">
+  <div class="container">
+    <div class="panel">
+      <h2 class="section__title" id="org-title">Felagsskapurin</h2>
+      <p class="section__lead">
+        {{ site.legalName }} · {{ site.orgType }}<br>
+        V-tal {{ site.vtal }}<br>
+        {{ site.address }}
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,14 +1,14 @@
 /* ============================================================
    Component: header / nav (BEM)
+   Solid teal bar over the light body — the top of the brand frame.
    ============================================================ */
 
 .header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--color-background) 90%, transparent);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--brand-teal);
+  box-shadow: 0 2px 12px -4px rgba(2, 79, 70, 0.4);
 }
 
 .nav {
@@ -20,29 +20,33 @@
 }
 
 .nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
   font-family: var(--font-heading);
-  font-weight: 800;
   font-size: var(--text-xl);
-  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--on-teal);
 }
-.nav__logo:hover { color: var(--color-primary); }
+.nav__logo:hover { color: #fff; }
+.nav__logo-img { height: 2.25rem; width: auto; }   /* used once the logo image is wired in */
 
 .nav__menu {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   list-style: none;
 }
 
 .nav__link {
   display: inline-block;
   padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  color: var(--color-text);
-  font-weight: 500;
+  border-radius: var(--radius-full);
+  color: var(--on-teal-muted);
 }
-.nav__link:hover,
-.nav__link--active { color: var(--color-primary); background: var(--color-surface); }
+.nav__link:hover { color: #fff; background: rgba(244, 244, 244, 0.14); }
+.nav__link--active { color: #fff; background: rgba(244, 244, 244, 0.20); }
 
 /* --- Mobile toggle (hidden on desktop) --- */
 .nav__toggle {
@@ -57,7 +61,8 @@
 .nav__toggle-bar {
   width: 24px;
   height: 2px;
-  background: var(--color-text);
+  background: var(--on-teal);
+  border-radius: var(--radius-full);
   transition: transform var(--transition), opacity var(--transition);
 }
 
@@ -71,8 +76,7 @@
     align-items: stretch;
     gap: var(--space-xs);
     padding: var(--space-lg);
-    background: var(--color-background);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--brand-teal-deep);
     box-shadow: var(--shadow-lg);
     transform: translateY(-120%);
     transition: transform var(--transition);

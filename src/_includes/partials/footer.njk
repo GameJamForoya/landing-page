@@ -1,32 +1,45 @@
 {#-
-  Site footer. Includes the legal-identity line (org name + V-tal) required for
-  the gj.fo domain ↔ org verification — see the Google Workspace for Nonprofits
-  progress fragment in the GameJam Foroyar Usable workspace. Keep it in the footer.
+  Site footer. The bottom bar carries the legal-identity block (org name,
+  type, V-tal, address + the English identity sentence) required for the
+  gj.fo domain ↔ org verification — see the Google Workspace for Nonprofits
+  progress fragment in the GameJam Foroyar Usable workspace. Keep it here.
+
+  No page-links column: the nav is sticky and always visible.
 -#}
 <footer class="footer" role="contentinfo">
   <div class="container footer__inner">
+
     <div class="footer__brand">
       <p class="footer__name">{{ site.name }}</p>
-      <p class="footer__legal">
-        {{ site.orgType }} · V-tal {{ site.vtal }}<br>
-        {{ site.address }}
-      </p>
+      <p class="footer__mission">{{ site.mission }}</p>
     </div>
-
-    <nav class="footer__nav" aria-label="Footer">
-      <ul class="footer__links" role="list">
-        {%- for item in site.nav %}
-        <li><a href="{{ item.url }}" class="footer__link">{{ item.text }}</a></li>
-        {%- endfor %}
-      </ul>
-    </nav>
 
     <div class="footer__contact">
-      <a href="mailto:{{ site.email }}" class="footer__link">{{ site.email }}</a>
+      <p class="footer__heading">Samband</p>
+      <ul class="footer__links" role="list">
+        <li><a href="mailto:{{ site.email }}" class="footer__link">{{ site.email }}</a></li>
+        <li><a href="tel:{{ site.phone | replace(' ', '') }}" class="footer__link">{{ site.phone }}</a></li>
+      </ul>
+
+      <ul class="footer__social" role="list">
+        {%- for channel in site.social %}
+        <li>
+          <a href="{{ channel.url }}" class="footer__social-link"
+             target="_blank" rel="noopener">{{ channel.name }}</a>
+        </li>
+        {%- endfor %}
+      </ul>
     </div>
+
   </div>
 
   <div class="footer__bottom">
-    <p class="footer__copyright">&copy; {% year %} {{ site.legalName }}. Øll rættindi ásett.</p>
+    <div class="container">
+      <p class="footer__legal">
+        {{ site.legalName }} · {{ site.orgType }} · V-tal {{ site.vtal }} · {{ site.address }}
+      </p>
+      <p class="footer__identity">{{ site.identityEn }}</p>
+      <p class="footer__copyright">&copy; {% year %} {{ site.legalName }}. Øll rættindi ásett.</p>
+    </div>
   </div>
 </footer>

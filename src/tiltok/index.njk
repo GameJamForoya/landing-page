@@ -1,0 +1,55 @@
+---
+layout: layouts/base.njk
+title: Tiltøk
+description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur til spølini, sum vórðu gjørd.
+---
+
+<section class="section page-head">
+  <div class="container">
+    <h1 class="page-head__title">Tiltøk</h1>
+    <p class="section__lead">
+      Her sært tú eitt yvirlit yvir tiltøkini hjá {{ site.name }} — og leinkjur
+      til spølini, sum luttakararnir gjørdu.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="next" aria-labelledby="next-title">
+  <div class="container">
+    <h2 class="section__title" id="next-title">Komandi tiltak</h2>
+    <div class="panel panel--highlight">
+      <p><span class="badge">{{ site.event.date }}</span></p>
+      <h3 class="panel__title">{{ site.event.name }}</h3>
+      <p class="section__lead">{{ site.event.venue }} · {{ site.event.note }}</p>
+      <p class="panel__actions">
+        <a href="/samband/" class="button button--primary">Ver við</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="past" aria-labelledby="past-title">
+  <div class="container">
+    <h2 class="section__title" id="past-title">Farin tiltøk</h2>
+    <ul class="events" role="list">
+      {%- for event in site.pastEvents %}
+      <li class="events__item">
+        <div class="events__info">
+          <h3 class="events__name">{{ event.name }}</h3>
+          <p class="events__meta">
+            {%- if event.date %}{{ event.date }} · {% endif -%}
+            {{ event.venue }}
+          </p>
+        </div>
+        <a class="events__link button button--secondary"
+           href="{{ event.games }}"
+           target="_blank"
+           rel="noopener">
+          Sí spølini
+          <span class="sr-only"> frá {{ event.name }}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
