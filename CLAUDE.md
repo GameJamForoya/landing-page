@@ -101,7 +101,8 @@ landing-page/
     │   ├── main.css          # design tokens, reset, utilities, buttons
     │   └── components/       # one BEM component per file (nav, hero, footer)
     ├── scripts/
-    │   └── main.js           # progressive enhancement ONLY
+    │   ├── main.js           # progressive enhancement ONLY
+    │   └── review.js         # hidden proof-reading mode (#review), lazy-loaded
     ├── assets/
     │   └── images/           # site imagery (optimise: WebP/SVG)
     └── public/               # copied verbatim to site root

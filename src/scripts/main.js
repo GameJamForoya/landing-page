@@ -70,19 +70,29 @@
      fetched only on that first press, so visitors who never find it never
      download it. Silently does nothing if the script fails to load. */
   var gameTriggers = document.querySelectorAll("[data-game-trigger]");
-  var gameLoading = false;
+
+  /* Lazy script loading, shared by the easter eggs (game, review mode).
+     `state.loading` guards against double-injection while a request is in
+     flight; callers check their own global for "already loaded". */
+  function loadScriptOnce(src, state, done) {
+    if (state.loading) return;
+    state.loading = true;
+    var s = document.createElement("script");
+    s.src = src;
+    s.onload = function () { state.loading = false; if (done) done(); };
+    s.onerror = function () { state.loading = false; };
+    document.head.appendChild(s);
+  }
+
+  var gameLoad = { loading: false };
 
   function loadGame(src, done) {
     if (window.GJGame) { done(); return; }
-    if (gameLoading) return;
-    gameLoading = true;
-    var s = document.createElement("script");
     // Path is base-aware (rendered through Eleventy's url filter); falls back
     // to the root-absolute path if the attribute is somehow missing.
-    s.src = src || "/scripts/game.js";
-    s.onload = function () { gameLoading = false; if (window.GJGame) done(); };
-    s.onerror = function () { gameLoading = false; };
-    document.head.appendChild(s);
+    loadScriptOnce(src || "/scripts/game.js", gameLoad, function () {
+      if (window.GJGame) done();
+    });
   }
 
   function launchGame(event) {
@@ -105,4 +115,36 @@
       if (event.key === "Enter" || event.key === " ") launchGame(event);
     });
   }
+
+  /* ---- Hidden review mode ----
+     For proof-readers: visiting any page with #review (or pressing
+     Alt+Shift+R) fetches scripts/review.js, which overlays annotation tools
+     (highlight text / comment on elements, export as JSON or GitHub issue).
+     Once activated it sticks across pages via localStorage until the reviewer
+     exits. Ordinary visitors never load a byte of it. */
+  var scriptBase = (
+    (document.currentScript && document.currentScript.src) || "/scripts/main.js"
+  ).replace(/main\.js.*$/, "");
+  var reviewLoad = { loading: false };
+
+  function loadReview() {
+    if (window.GJReview) return;
+    loadScriptOnce(scriptBase + "review.js", reviewLoad);
+  }
+
+  var reviewWanted =
+    location.hash === "#review" ||
+    /[?&]review(=|&|$)/.test(location.search) ||
+    // NB: literal must match ACTIVE_KEY in review.js.
+    localStorage.getItem("gjreview:active") === "1";
+
+  if (reviewWanted) loadReview();
+
+  window.addEventListener("hashchange", function () {
+    if (location.hash === "#review") loadReview();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.altKey && event.shiftKey && event.code === "KeyR") loadReview();
+  });
 })();
