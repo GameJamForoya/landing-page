@@ -105,4 +105,39 @@
       if (event.key === "Enter" || event.key === " ") launchGame(event);
     });
   }
+
+  /* ---- Hidden review mode ----
+     For proof-readers: visiting any page with #review (or pressing
+     Alt+Shift+R) fetches scripts/review.js, which overlays annotation tools
+     (highlight text / comment on elements, export as JSON or GitHub issue).
+     Once activated it sticks across pages via localStorage until the reviewer
+     exits. Ordinary visitors never load a byte of it. */
+  var scriptBase = (
+    (document.currentScript && document.currentScript.src) || "/scripts/main.js"
+  ).replace(/main\.js.*$/, "");
+  var reviewLoading = false;
+
+  function loadReview() {
+    if (window.GJReview || reviewLoading) return;
+    reviewLoading = true;
+    var s = document.createElement("script");
+    s.src = scriptBase + "review.js";
+    s.onerror = function () { reviewLoading = false; };
+    document.head.appendChild(s);
+  }
+
+  var reviewWanted =
+    location.hash === "#review" ||
+    /[?&]review(=|&|$)/.test(location.search) ||
+    localStorage.getItem("gjreview:active") === "1";
+
+  if (reviewWanted) loadReview();
+
+  window.addEventListener("hashchange", function () {
+    if (location.hash === "#review") loadReview();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.altKey && event.shiftKey && event.code === "KeyR") loadReview();
+  });
 })();

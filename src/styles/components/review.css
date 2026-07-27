@@ -1,0 +1,420 @@
+/* ============================================================
+   review.css — hidden proof-reading mode (BEM block: review)
+   ------------------------------------------------------------
+   Styles for the reviewer overlay loaded on demand by
+   scripts/review.js. Not part of the visitor experience: the
+   classes only ever appear once review mode is activated
+   (#review / Alt+Shift+R), so this file is inert for everyone
+   else. Uses the site tokens plus a few review-only ones so the
+   overlay reads as "tooling", not content.
+   ============================================================ */
+
+:root {
+  --review-ink: #1c2b28;
+  --review-bg: #10312c;            /* dark teal chrome, distinct from content */
+  --review-on-bg: #f4f4f4;
+  --review-accent: #ffd166;        /* highlighter yellow */
+  --review-danger: var(--brand-red, #ca4e3a);
+  --review-radius: 10px;
+  --review-shadow: 0 10px 30px rgba(2, 43, 38, 0.35);
+  --review-z: 9000;                /* above everything, incl. the hero game */
+}
+
+/* ---- Motion ------------------------------------------------
+   Entry animations for everything the tool pops onto the page.
+   All of it is decorative, so prefers-reduced-motion turns the
+   whole lot off at the bottom of this file. */
+
+@keyframes review-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* For elements whose base transform is translateX(-50%) (bubble, toast). */
+@keyframes review-pop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes review-mark-in {
+  from {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+}
+
+/* ---- In-page annotations ---------------------------------- */
+
+.review-mark {
+  background: var(--review-accent);
+  color: var(--review-ink);
+  border-bottom: 2px solid var(--review-danger);
+  cursor: help;
+  animation: review-mark-in 0.45s ease-out;
+}
+
+.review-element-flag {
+  outline: 3px dashed var(--review-danger);
+  outline-offset: 3px;
+}
+
+.review-hover-target {
+  outline: 3px solid var(--review-accent);
+  outline-offset: 3px;
+  cursor: crosshair;
+}
+
+body.review-element-mode main,
+body.review-element-mode .header,
+body.review-element-mode .footer {
+  cursor: crosshair;
+}
+
+/* ---- Shared chrome ---------------------------------------- */
+
+.review-ui {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--review-on-bg);
+  box-sizing: border-box;
+}
+
+.review-ui *,
+.review-ui *::before,
+.review-ui *::after {
+  box-sizing: inherit;
+}
+
+.review-ui button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(244, 244, 244, 0.12);
+  color: inherit;
+  padding: 0.45em 0.8em;
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.review-ui button:active {
+  transform: scale(0.95);
+}
+
+.review-ui button:hover {
+  background: rgba(244, 244, 244, 0.24);
+}
+
+.review-ui button:focus-visible {
+  outline: 2px solid var(--review-accent);
+  outline-offset: 2px;
+}
+
+.review-ui button[aria-pressed="true"] {
+  background: var(--review-accent);
+  color: var(--review-ink);
+}
+
+/* ---- Toolbar (fixed, bottom-right) ------------------------ */
+
+.review-bar {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: var(--review-z);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.6rem 0.75rem;
+  background: var(--review-bg);
+  border-radius: var(--review-radius);
+  box-shadow: var(--review-shadow);
+  animation: review-rise 0.35s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+}
+
+.review-bar__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.review-bar__title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 0.25rem;
+  white-space: nowrap;
+}
+
+.review-bar__count {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  padding: 0.1em 0.4em;
+  border-radius: 999px;
+  background: var(--review-accent);
+  color: var(--review-ink);
+  font-weight: 600;
+}
+
+.review-bar__hint {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  max-width: 34rem;
+}
+
+.review-bar__exit {
+  background: rgba(202, 78, 58, 0.35);
+}
+
+.review-bar__exit:hover {
+  background: var(--review-danger);
+}
+
+/* ---- Save dropdown ---------------------------------------- */
+
+.review-save {
+  position: relative;
+}
+
+.review-save__menu {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 13rem;
+  padding: 0.4rem;
+  background: var(--review-bg);
+  border: 1px solid rgba(244, 244, 244, 0.22);
+  border-radius: 8px;
+  box-shadow: var(--review-shadow);
+  animation: review-rise 0.18s ease-out;
+}
+
+.review-save__item {
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* ---- Selection bubble ------------------------------------- */
+
+.review-bubble {
+  position: absolute;
+  z-index: var(--review-z);
+  transform: translateX(-50%);
+  background: var(--review-bg);
+  border-radius: 999px;
+  box-shadow: var(--review-shadow);
+  padding: 0.2rem;
+  white-space: nowrap;
+  animation: review-pop 0.16s ease-out;
+}
+
+/* ---- Note form (fixed dialog) ----------------------------- */
+
+.review-form {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;
+  z-index: calc(var(--review-z) + 2);
+  width: min(26rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 6rem);
+  overflow: auto;
+  background: var(--review-bg);
+  border-radius: var(--review-radius);
+  box-shadow: var(--review-shadow);
+  padding: 1rem;
+  animation: review-rise 0.22s ease-out;
+}
+
+.review-form__heading {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: var(--review-on-bg);
+}
+
+.review-form__context {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-left: 3px solid var(--review-accent);
+  background: rgba(244, 244, 244, 0.08);
+  border-radius: 4px;
+  max-height: 6.5em;
+  overflow: auto;
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+.review-form__label {
+  display: block;
+  margin: 0 0 0.75rem;
+}
+
+.review-form__label span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.review-form__input {
+  width: 100%;
+  min-height: 3.2em;
+  resize: vertical;
+  font: inherit;
+  color: var(--review-ink);
+  background: var(--review-on-bg);
+  border: 0;
+  border-radius: 6px;
+  padding: 0.5em 0.6em;
+}
+
+.review-form__input:focus-visible {
+  outline: 2px solid var(--review-accent);
+  outline-offset: 2px;
+}
+
+.review-form__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.review-form__save {
+  background: var(--review-accent);
+  color: var(--review-ink);
+  font-weight: 600;
+}
+
+.review-form__save:hover {
+  background: #ffdd88;
+}
+
+/* ---- Notes panel ------------------------------------------ */
+
+.review-panel {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;
+  z-index: calc(var(--review-z) + 1);
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 6rem);
+  overflow: auto;
+  background: var(--review-bg);
+  border-radius: var(--review-radius);
+  box-shadow: var(--review-shadow);
+  padding: 1rem;
+  animation: review-rise 0.22s ease-out;
+}
+
+.review-panel__heading {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: var(--review-on-bg);
+}
+
+.review-panel__page {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.review-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.review-panel__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(244, 244, 244, 0.15);
+}
+
+.review-panel__body {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.review-panel__quote {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.review-panel__change {
+  color: var(--review-accent);
+}
+
+.review-panel__delete {
+  flex: none;
+  padding: 0.2em 0.55em;
+  background: rgba(202, 78, 58, 0.35);
+}
+
+.review-panel__delete:hover {
+  background: var(--review-danger);
+}
+
+.review-panel__empty {
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* ---- Toast ------------------------------------------------- */
+
+.review-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 5rem;
+  transform: translateX(-50%);
+  z-index: calc(var(--review-z) + 3);
+  background: var(--review-bg);
+  color: var(--review-on-bg);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  box-shadow: var(--review-shadow);
+  max-width: calc(100vw - 2rem);
+  animation: review-pop 0.2s ease-out;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.review-toast--hide {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+
+/* ---- Reduced motion --------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .review-ui,
+  .review-ui *,
+  .review-mark {
+    animation: none !important;
+    transition: none !important;
+  }
+}
