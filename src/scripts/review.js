@@ -94,10 +94,19 @@
    * True if the range touches our own UI. Checking only the common ancestor
    * is not enough: a drag from page content onto the fixed toolbar has
    * <body> as its ancestor, but its end container sits inside the toolbar —
-   * annotating that would wrap our own chrome in <mark>s.
+   * annotating that would wrap our own chrome in <mark>s. And endpoint
+   * checks alone don't catch select-all (both endpoints are <body> itself),
+   * so also reject any range that spans a review-UI element in DOM order.
    */
   function rangeTouchesUI(range) {
-    return isReviewUI(range.startContainer) || isReviewUI(range.endContainer);
+    if (isReviewUI(range.startContainer) || isReviewUI(range.endContainer)) {
+      return true;
+    }
+    var roots = document.querySelectorAll(".review-ui");
+    for (var i = 0; i < roots.length; i++) {
+      if (range.intersectsNode(roots[i])) return true;
+    }
+    return false;
   }
 
   /**
@@ -138,7 +147,8 @@
     var nodes = [];
     var node;
     while ((node = walker.nextNode())) {
-      if (range.intersectsNode(node)) nodes.push(node);
+      // Never wrap our own chrome, whatever the range claims to span.
+      if (range.intersectsNode(node) && !isReviewUI(node)) nodes.push(node);
     }
     nodes.forEach(function (textNode) {
       var start = textNode === range.startContainer ? range.startOffset : 0;
@@ -801,30 +811,38 @@
     };
   }
 
+  /** Copy text, then call done(ok) — ok reports whether the copy stuck. */
   function copyText(text, done) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () {
-        legacyCopy(text, done);
-      });
+      navigator.clipboard.writeText(text).then(
+        function () {
+          done(true);
+        },
+        function () {
+          // Can fail e.g. when a just-opened tab stole the document's focus.
+          done(legacyCopy(text));
+        }
+      );
     } else {
-      legacyCopy(text, done);
+      done(legacyCopy(text));
     }
   }
 
-  function legacyCopy(text, done) {
+  function legacyCopy(text) {
     var area = document.createElement("textarea");
     area.value = text;
     area.style.position = "fixed";
     area.style.opacity = "0";
     document.body.appendChild(area);
     area.select();
+    var ok = false;
     try {
-      document.execCommand("copy");
+      ok = document.execCommand("copy");
     } catch (e) {
-      /* nothing more we can do */
+      ok = false;
     }
     area.remove();
-    done();
+    return ok;
   }
 
   function copyExport() {
@@ -832,8 +850,12 @@
       toast("No notes to copy yet.");
       return;
     }
-    copyText(JSON.stringify(buildExport(), null, 2), function () {
-      toast("Review copied to clipboard as JSON (" + totalCount() + " notes).");
+    copyText(JSON.stringify(buildExport(), null, 2), function (ok) {
+      toast(
+        ok
+          ? "Review copied to clipboard as JSON (" + totalCount() + " notes)."
+          : "Could not access the clipboard — try again, or use the GitHub issue export."
+      );
     });
   }
 
@@ -884,8 +906,12 @@
         "_blank",
         "noopener"
       );
-      copyText(body, function () {
-        toast("Review copied to clipboard — paste it into the issue that just opened.");
+      copyText(body, function (ok) {
+        toast(
+          ok
+            ? "Review copied to clipboard — paste it into the issue that just opened."
+            : "Could not copy automatically — press “Save → Copy JSON” and paste that into the issue."
+        );
       });
     } else {
       window.open(url, "_blank", "noopener");
@@ -896,18 +922,23 @@
 
   function exitReview() {
     localStorage.removeItem(ACTIVE_KEY);
-    // Reload on a URL stripped of every activation trigger — both the
-    // #review hash and the ?review query param — otherwise main.js would
-    // switch the mode straight back on after the reload.
+    // Strip every activation trigger — both the #review hash and the
+    // ?review query param — then force a real reload. NB: a plain
+    // location.replace() is NOT enough here: when the new URL differs only
+    // by its fragment (the #review case), the browser treats it as a
+    // same-document navigation and never reloads the page.
     var params = location.search
       .replace(/^\?/, "")
       .split("&")
       .filter(function (p) {
         return p && !/^review(=|$)/.test(p);
       });
-    location.replace(
+    history.replaceState(
+      null,
+      "",
       location.pathname + (params.length ? "?" + params.join("&") : "")
     );
+    location.reload();
   }
 
   function onKeydown(event) {
@@ -988,6 +1019,12 @@
       if (event.key === STORE_KEY) {
         notes = loadNotes();
         updateCount();
+        // Re-render the notes panel if it's open, so it can't show (and act
+        // on) a stale snapshot of another tab's changes.
+        if (ui.panel) {
+          closePanel();
+          togglePanel();
+        }
       }
     });
 
