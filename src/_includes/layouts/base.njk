@@ -36,8 +36,9 @@
   <link rel="stylesheet" href="/styles/components/sponsors.css">
   <link rel="stylesheet" href="/styles/components/events.css">
   <link rel="stylesheet" href="/styles/components/footer.css">
-  {#- Hidden proof-reading mode (see scripts/review.js) — inert unless activated -#}
-  <link rel="stylesheet" href="/styles/components/review.css">
+  {#- NB: styles/components/review.css is NOT linked here on purpose — the
+      hidden review mode (scripts/review.js) injects it on demand so ordinary
+      visitors never download any review-mode bytes. -#}
   {%- if extraStyles %}{% for href in extraStyles %}
   <link rel="stylesheet" href="{{ href }}">
   {%- endfor %}{% endif %}

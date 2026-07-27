@@ -22,11 +22,24 @@
   if (window.GJReview) return;
 
   var STORE_KEY = "gjreview:notes";
+  // NB: literal must match the activation check in main.js's review hook.
   var ACTIVE_KEY = "gjreview:active";
   var REPO = "GameJamForoya/landing-page";
   // Keep prefilled-issue URLs comfortably under GitHub's ~8k URL limit.
   var MAX_ISSUE_URL = 6000;
   var CONTEXT_CHARS = 30; // prefix/suffix stored around a text selection
+  var EXCERPT_MAX = 200; // chars of an element's text kept as note context
+  var PANEL_TEXT_MAX = 90; // chars of quote/replacement shown in the panel
+  var PANEL_COMMENT_MAX = 120; // chars of a comment shown in the panel
+  var POPUP_GAP = 10; // px between the toolbar and the form/panel popups
+
+  // Our own stylesheet, resolved relative to this script so it works at any
+  // base path. Injected on demand (ensureStyles) so ordinary visitors never
+  // download any review-mode bytes — CSS included.
+  var SCRIPT_SRC = document.currentScript && document.currentScript.src;
+  var CSS_HREF = SCRIPT_SRC
+    ? SCRIPT_SRC.replace(/scripts\/review\.js.*$/, "styles/components/review.css")
+    : "/styles/components/review.css";
 
   var notes = loadNotes(); // { "<pathname>": [note, …] }
   var pageKey = location.pathname.replace(/index\.html$/, "");
@@ -46,9 +59,17 @@
     }
   }
 
+  /** Persist notes; returns false (with a toast) if storage rejects the write. */
   function saveNotes() {
-    localStorage.setItem(STORE_KEY, JSON.stringify(notes));
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(notes));
+    } catch (e) {
+      updateCount();
+      toast("Could not save — browser storage is full or unavailable.");
+      return false;
+    }
     updateCount();
+    return true;
   }
 
   function pageNotes() {
@@ -67,6 +88,16 @@
   function isReviewUI(node) {
     var el = node && (node.nodeType === 1 ? node : node.parentElement);
     return !!(el && el.closest(".review-ui"));
+  }
+
+  /**
+   * True if the range touches our own UI. Checking only the common ancestor
+   * is not enough: a drag from page content onto the fixed toolbar has
+   * <body> as its ancestor, but its end container sits inside the toolbar —
+   * annotating that would wrap our own chrome in <mark>s.
+   */
+  function rangeTouchesUI(range) {
+    return isReviewUI(range.startContainer) || isReviewUI(range.endContainer);
   }
 
   /**
@@ -247,7 +278,6 @@
     var saveWrap = document.createElement("div");
     saveWrap.className = "review-save";
     ui.saveToggle = makeButton("Save ▾", "Export the review", toggleSaveMenu);
-    ui.saveToggle.setAttribute("aria-haspopup", "true");
     ui.saveToggle.setAttribute("aria-expanded", "false");
     saveWrap.appendChild(ui.saveToggle);
     ui.saveWrap = saveWrap;
@@ -274,8 +304,12 @@
 
   /** Keep popups (form / notes panel) clear of the toolbar, whatever its height. */
   function placeAboveBar(el) {
-    var barHeight = ui.bar ? ui.bar.getBoundingClientRect().height : 0;
-    el.style.bottom = Math.round(barHeight + 16 + 10) + "px"; // toolbar offset + gap
+    if (!ui.bar) return;
+    // Read the toolbar's own bottom offset live so this never drifts from
+    // the `.review-bar { bottom: … }` value in review.css.
+    var barOffset = parseFloat(getComputedStyle(ui.bar).bottom) || 0;
+    var barHeight = ui.bar.getBoundingClientRect().height;
+    el.style.bottom = Math.round(barHeight + barOffset + POPUP_GAP) + "px";
   }
 
   /* ---- Save dropdown ---- */
@@ -294,9 +328,10 @@
       closeSaveMenu();
       return;
     }
+    // Deliberately NOT role="menu": that role promises arrow-key navigation
+    // we don't implement. Plain buttons + aria-expanded is honest and works.
     var menu = document.createElement("div");
     menu.className = "review-save__menu";
-    menu.setAttribute("role", "menu");
 
     var copy = makeButton(
       "Copy JSON",
@@ -307,7 +342,6 @@
       }
     );
     copy.className += " review-save__item";
-    copy.setAttribute("role", "menuitem");
     menu.appendChild(copy);
 
     var issue = makeButton(
@@ -319,7 +353,6 @@
       }
     );
     issue.className += " review-save__item";
-    issue.setAttribute("role", "menuitem");
     menu.appendChild(issue);
 
     ui.saveWrap.appendChild(menu);
@@ -378,8 +411,10 @@
         return;
       }
       var range = sel.getRangeAt(0);
-      if (isReviewUI(range.commonAncestorContainer)) return;
-      if (!String(sel).trim()) return;
+      if (rangeTouchesUI(range) || !String(sel).trim()) {
+        hideBubble();
+        return;
+      }
       showBubble(range.getBoundingClientRect());
     }, 10);
   }
@@ -389,6 +424,7 @@
     var sel = window.getSelection();
     if (!sel || sel.isCollapsed || !sel.rangeCount) return;
     var range = sel.getRangeAt(0).cloneRange();
+    if (rangeTouchesUI(range)) return;
     var container = range.commonAncestorContainer;
     var el = container.nodeType === 1 ? container : container.parentElement;
 
@@ -454,22 +490,32 @@
     }
   }
 
-  function onElementClick(event) {
-    if (!elementMode || ui.form) return;
-    var el = event.target;
-    if (isReviewUI(el) || el === document.body || el === document.documentElement) return;
-    event.preventDefault();
-    event.stopPropagation();
+  function captureElement(el) {
     clearHover();
     var text = el.textContent.replace(/\s+/g, " ").trim();
     pending = {
       type: "element",
       selector: cssPath(el),
-      original: text.length > 200 ? text.slice(0, 200) + "…" : text,
+      original: text.length > EXCERPT_MAX ? text.slice(0, EXCERPT_MAX) + "…" : text,
       element: el
     };
     pendingRange = null;
     openForm();
+  }
+
+  function isPickableElement(el) {
+    return (
+      el && el !== document.body && el !== document.documentElement && !isReviewUI(el)
+    );
+  }
+
+  function onElementClick(event) {
+    if (!elementMode || ui.form) return;
+    var el = event.target;
+    if (!isPickableElement(el)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    captureElement(el);
   }
 
   /* ---- Note form ---- */
@@ -567,9 +613,13 @@
   }
 
   function closeForm() {
+    var hadFocusInside = ui.form && ui.form.contains(document.activeElement);
     removeFormEl();
     pending = null;
     pendingRange = null;
+    // Removing a focused element drops focus to <body>; give keyboard users
+    // a stable place to continue from instead.
+    if (hadFocusInside && ui.elementToggle) ui.elementToggle.focus();
   }
 
   function saveNote(replacement, comment) {
@@ -590,6 +640,13 @@
       comment: comment || null
     };
     pageNotes().push(note);
+    if (!saveNotes()) {
+      // Storage refused the write (quota/private mode): roll the note back
+      // and keep the form open so the reviewer's text isn't lost.
+      pageNotes().pop();
+      updateCount();
+      return;
+    }
 
     if (pending.type === "text" && pendingRange) {
       wrapRange(pendingRange, note.id);
@@ -599,7 +656,6 @@
     }
 
     closeForm();
-    saveNotes();
     toast("Note saved (" + totalCount() + " in total).");
   }
 
@@ -674,18 +730,18 @@
 
     var quote = document.createElement("div");
     quote.className = "review-panel__quote";
-    quote.textContent = "“" + truncate(note.original, 90) + "”";
+    quote.textContent = "“" + truncate(note.original, PANEL_TEXT_MAX) + "”";
     body.appendChild(quote);
 
     if (note.replacement) {
       var change = document.createElement("div");
       change.className = "review-panel__change";
-      change.textContent = "→ " + truncate(note.replacement, 90);
+      change.textContent = "→ " + truncate(note.replacement, PANEL_TEXT_MAX);
       body.appendChild(change);
     }
     if (note.comment) {
       var comment = document.createElement("div");
-      comment.textContent = truncate(note.comment, 120);
+      comment.textContent = truncate(note.comment, PANEL_COMMENT_MAX);
       body.appendChild(comment);
     }
     item.appendChild(body);
@@ -698,6 +754,9 @@
       removeHighlight(note.id);
       saveNotes();
       item.remove();
+      // Keep keyboard focus somewhere useful after the button disappears.
+      var next = ui.panel && ui.panel.querySelector(".review-panel__delete");
+      (next || ui.panelToggle).focus();
     });
     del.className += " review-panel__delete";
     item.appendChild(del);
@@ -816,15 +875,17 @@
       encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
 
     if (url.length > MAX_ISSUE_URL) {
-      // Too big to prefill via URL: put the body on the clipboard instead and
-      // open a blank issue for pasting.
+      // Too big to prefill via URL: open a blank issue for pasting and put
+      // the body on the clipboard. The tab MUST open synchronously here —
+      // Safari revokes the click's user activation across the clipboard
+      // promise and would block a window.open issued in its callback.
+      window.open(
+        "https://github.com/" + REPO + "/issues/new?title=" + encodeURIComponent(title),
+        "_blank",
+        "noopener"
+      );
       copyText(body, function () {
         toast("Review copied to clipboard — paste it into the issue that just opened.");
-        window.open(
-          "https://github.com/" + REPO + "/issues/new?title=" + encodeURIComponent(title),
-          "_blank",
-          "noopener"
-        );
       });
     } else {
       window.open(url, "_blank", "noopener");
@@ -835,14 +896,33 @@
 
   function exitReview() {
     localStorage.removeItem(ACTIVE_KEY);
-    // Reload without the #review trigger so the mode actually stays off.
-    if (location.hash === "#review") {
-      history.replaceState(null, "", location.pathname + location.search);
-    }
-    location.reload();
+    // Reload on a URL stripped of every activation trigger — both the
+    // #review hash and the ?review query param — otherwise main.js would
+    // switch the mode straight back on after the reload.
+    var params = location.search
+      .replace(/^\?/, "")
+      .split("&")
+      .filter(function (p) {
+        return p && !/^review(=|$)/.test(p);
+      });
+    location.replace(
+      location.pathname + (params.length ? "?" + params.join("&") : "")
+    );
   }
 
   function onKeydown(event) {
+    // Keyboard path for element mode: Enter picks the focused element (the
+    // click handler already covers links/buttons, whose Enter synthesizes a
+    // click — this also covers anything else focusable, e.g. tabindex'd).
+    if (elementMode && !ui.form && event.key === "Enter") {
+      var focused = document.activeElement;
+      if (isPickableElement(focused)) {
+        event.preventDefault();
+        captureElement(focused);
+        return;
+      }
+    }
+
     if (event.key !== "Escape") return;
     if (ui.saveMenu) {
       closeSaveMenu();
@@ -851,8 +931,10 @@
       closeForm();
     } else if (ui.panel) {
       closePanel();
+      ui.panelToggle.focus();
     } else if (elementMode) {
       toggleElementMode();
+      ui.elementToggle.focus();
     }
     hideBubble();
   }
@@ -861,8 +943,35 @@
     if (ui.saveMenu && !event.target.closest(".review-save")) closeSaveMenu();
   }
 
+  /** Inject our stylesheet (once), then call done — styled from frame one. */
+  function ensureStyles(done) {
+    if (document.querySelector("link[data-gjreview-css]")) {
+      done();
+      return;
+    }
+    var fired = false;
+    function once() {
+      if (!fired) {
+        fired = true;
+        done();
+      }
+    }
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = CSS_HREF;
+    link.setAttribute("data-gjreview-css", "");
+    link.onload = once;
+    link.onerror = once; // still usable unstyled — never block on the CSS
+    document.head.appendChild(link);
+    setTimeout(once, 1000); // belt & braces if load events never fire
+  }
+
   function init() {
-    localStorage.setItem(ACTIVE_KEY, "1");
+    try {
+      localStorage.setItem(ACTIVE_KEY, "1");
+    } catch (e) {
+      /* no persistence across pages, but the tool still works on this one */
+    }
     buildToolbar();
     pageNotes().forEach(renderNote);
 
@@ -873,9 +982,19 @@
     document.addEventListener("click", onDocumentClick);
     document.addEventListener("keydown", onKeydown);
 
-    toast("Review mode on. Select text, or use Element mode, to leave notes.");
+    // Another tab may add/delete notes; adopt its copy instead of clobbering
+    // it on our next save. (Highlights refresh on the next page load.)
+    window.addEventListener("storage", function (event) {
+      if (event.key === STORE_KEY) {
+        notes = loadNotes();
+        updateCount();
+      }
+    });
+
+    toast("Review mode on. Select text, or use Add Note, to leave notes.");
   }
 
-  window.GJReview = { start: init };
-  init();
+  // Presence marker only — main.js checks window.GJReview to avoid loading twice.
+  window.GJReview = { loaded: true };
+  ensureStyles(init);
 })();

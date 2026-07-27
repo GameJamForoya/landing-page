@@ -42,8 +42,9 @@ and add a `CNAME` file to `src/public/`.
 
 ## Hidden review mode (for proof-readers)
 
-Open any page with `#review` appended (e.g. `https://gj.fo/#review`) or press
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>. A toolbar appears that lets you:
+Open any page with `#review` appended (e.g. `https://gj.fo/#review`), add
+`?review` to the URL, or press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>.
+A toolbar appears that lets you:
 
 - **Select text** → suggest a corrected wording and/or leave a comment.
 - **Element mode** → click any element to comment on it as a whole.

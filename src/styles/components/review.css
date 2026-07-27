@@ -14,7 +14,7 @@
   --review-bg: #10312c;            /* dark teal chrome, distinct from content */
   --review-on-bg: #f4f4f4;
   --review-accent: #ffd166;        /* highlighter yellow */
-  --review-danger: var(--brand-red, #ca4e3a);
+  --review-danger: var(--brand-red);
   --review-radius: 10px;
   --review-shadow: 0 10px 30px rgba(2, 43, 38, 0.35);
   --review-z: 9000;                /* above everything, incl. the hero game */
@@ -85,7 +85,7 @@ body.review-element-mode .footer {
 /* ---- Shared chrome ---------------------------------------- */
 
 .review-ui {
-  font-family: var(--font-sans, system-ui, sans-serif);
+  font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--review-on-bg);
