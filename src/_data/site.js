@@ -34,7 +34,7 @@ module.exports = {
 
   // Default SEO copy — pages can override via front matter (title/description).
   description:
-    "GameJam Føroya fremur telduspælmentan og spælmenning í Føroyum — vit skipa fyri game jams, verkstovum og fyrilestrum fyri øll, ið hava áhuga í spølum og spælgerð.",
+    "GameJam Føroya fremur telduspælmentan og spælmenning í Føroyum — vit skipa fyri game jams, verkstovum og fyrilestrum fyri øll, ið eru áhugað í spølum og spælmenning.",
 
   // Primary navigation — rendered by partials/nav.njk.
   nav: [
