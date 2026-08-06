@@ -14,7 +14,7 @@ module.exports = {
   orgType: "Áhugafelagsskapur",
   vtal: "659436",
   founded: "2022",
-  address: "Lyngnesvegur 11, 660 Søldarfjørður, Føroyar",
+  address: "Lygnesvegur 11, 660 Søldarfjørður",
   // The address published on the current gj.fo. NB(Hanna): the Usable sponsor
   // answer sheet still lists gamejamfo@gmail.com — confirm which is primary.
   email: "info@gj.fo",
@@ -68,7 +68,7 @@ module.exports = {
   // Skúlin á Fløtum, but the current live gj.fo shows a different (May) event.
   event: {
     name: "GameJam Føroya 2026",
-    date: "Vikuskiftið, ið byrjar 11. september 2026",
+    date: "Vikuskiftið 11.–13. september 2026",
     venue: "Skúlin á Fløtum, 100 Tórshavn",
     note: "48 tímar · telduspøl og borðspøl · 100% ókeypis",
     // Google Form for this event. Clear it when sign-ups close — the CTA then
@@ -129,7 +129,7 @@ module.exports = {
 
   // Short mission line for the footer.
   mission:
-    "GameJam Føroya fremur spælmenning og telduspælmentan í Føroyum — við árligum game jams, verkstovum og fyrilestrum, opnum fyri øllum.",
+    "GameJam Føroya fremur spælmenning og telduspælmentan í Føroyum — við árligum game jams, verkstovum og fyrilestrum. Øll eru vælkomin.",
 
   // English legal-identity sentence. This exists for the gj.fo domain ↔ org
   // verification (Google Workspace for Nonprofits) — an English reviewer needs
