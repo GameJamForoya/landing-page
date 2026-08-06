@@ -25,7 +25,14 @@ title: Heim
       </p>
       <div class="hero__actions">
         <a href="/tiltok/" class="button button--primary">Sí komandi tiltak</a>
+        {%- if site.event.signupUrl %}
+        <a href="{{ site.event.signupUrl }}"
+           class="button button--secondary"
+           target="_blank"
+           rel="noopener">Skráset teg</a>
+        {%- else %}
         <a href="/samband/" class="button button--secondary">Ver við</a>
+        {%- endif %}
       </div>
     </div>
 
@@ -112,7 +119,14 @@ title: Heim
       <h3 class="panel__title">{{ site.event.name }}</h3>
       <p class="section__lead">{{ site.event.venue }} · {{ site.event.note }}</p>
       <p class="panel__actions">
+        {%- if site.event.signupUrl %}
+        <a href="{{ site.event.signupUrl }}"
+           class="button button--primary"
+           target="_blank"
+           rel="noopener">Skráset teg</a>
+        {%- else %}
         <a href="/samband/" class="button button--primary">Ver við</a>
+        {%- endif %}
         <a href="/tiltok/" class="button button--secondary">Øll tiltøk</a>
       </p>
     </div>

@@ -71,6 +71,10 @@ module.exports = {
     date: "Vikuskiftið, ið byrjar 11. september 2026",
     venue: "Skúlin á Fløtum, 100 Tórshavn",
     note: "48 tímar · telduspøl og borðspøl · 100% ókeypis",
+    // Google Form for this event. Clear it when sign-ups close — the CTA then
+    // falls back to the contact page.
+    signupUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSeEnwnvlHlyZ4iM-pn5g5F91TSqQUN3P-gFUYn3TRAUXEpdtg/viewform",
   },
 
   // Past events, newest first — mirrors the archive on the old gj.fo site.
