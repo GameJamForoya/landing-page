@@ -142,7 +142,13 @@ title: Heim
     </p>
     <ul class="sponsors__grid" role="list">
       {%- for sponsor in site.sponsors %}
-      <li class="sponsors__item">{{ sponsor }}</li>
+      {%- if sponsor.logo %}
+      <li class="sponsors__item sponsors__item--logo">
+        {% image sponsor.logo, sponsor.name, "(max-width: 600px) 40vw, 200px", "sponsors__logo" + (" sponsors__logo--boxed" if sponsor.boxed else "") %}
+      </li>
+      {%- else %}
+      <li class="sponsors__item">{{ sponsor.name }}</li>
+      {%- endif %}
       {%- endfor %}
     </ul>
   </div>

@@ -24,5 +24,33 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* When a sponsor logo image is used instead of text */
-.sponsors__logo { max-height: 2.25rem; width: auto; }
+/* ---- Logo cells -------------------------------------------------------
+   Sponsor artwork arrives in wildly different aspect ratios (a 4.8:1 wordmark
+   next to a square mark), so the cell is a fixed box and the logo is contained
+   inside it. That puts every sponsor on one optical baseline without stretching
+   anyone's brand. */
+.sponsors__item--logo {
+  justify-content: center;
+  min-width: 11rem;
+  height: 5.5rem;
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* eleventy-img wraps raster logos in <picture>; `contents` lets the <img>
+   itself be the flex item so its max-height resolves against the cell. */
+.sponsors__item--logo picture { display: contents; }
+
+.sponsors__logo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* A mark that ships with its own background tile reads heavier than a flat
+   wordmark at identical size, so it sits slightly smaller in the cell. */
+.sponsors__logo--boxed {
+  max-height: 72%;
+  border-radius: var(--radius-md);
+}

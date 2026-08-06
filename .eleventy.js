@@ -60,11 +60,16 @@ module.exports = function (eleventyConfig) {
       if (alt === undefined) {
         throw new Error(`Missing \`alt\` on image shortcode for: ${src}`);
       }
+      // Vector sources ship as-is: rasterising an SVG to fixed widths would
+      // throw away the one thing it is good at. `svgShortCircuit` makes
+      // eleventy-img copy the file through and skip the raster variants.
+      const isSvg = src.toLowerCase().endsWith(".svg");
       const metadata = await Image(src, {
-        widths: [320, 480, 640, 960],
+        widths: isSvg ? ["auto"] : [320, 480, 640, 960],
         // webp + the source's own format (null) → PNG keeps logo transparency,
         // JPEG stays JPEG for photos. Best of both.
-        formats: ["webp", null],
+        formats: isSvg ? ["svg"] : ["webp", null],
+        svgShortCircuit: isSvg,
         outputDir: "./_site/img/",
         urlPath: "/img/",
       });

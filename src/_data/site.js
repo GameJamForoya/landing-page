@@ -112,15 +112,32 @@ module.exports = {
       games: "https://itch.io/jam/gamejam-foroya-2021/entries" },
   ],
 
-  // 2025 supporters (from the live gj.fo). Swap to logo images when available.
+  // Confirmed supporters for the current event.
+  //
+  // ONLY list sponsors who have actually said yes. Asked-but-unanswered
+  // companies must not appear here — publishing a logo before the sponsorship
+  // is agreed misrepresents them. Add each one as its confirmation lands, and
+  // clear the list back out when the next event's round of asks begins.
+  // Awaiting a reply for 2026: Klintra, Formula, Nema, Elektron, Lunnar,
+  // Tabletop Føroyar, Posta, Vinnuframi, BankNordik, PM — see the "GameJam
+  // Føroyar Sponsors" sheet in Drive for live status.
+  //
+  // `logo` is a source path handed to the `image` shortcode, which bakes an
+  // optimised WebP/SVG into /img/ at build time; a sponsor without one falls
+  // back to a plain name chip. Set `boxed` when the artwork carries its own
+  // background tile — those scale down slightly so they don't optically
+  // outweigh the flat wordmarks. Sources live in Drive under "Sponsor Logos/".
   sponsors: [
-    "Klintra",
-    "Formula",
-    "Nema",
-    "Elektron",
-    "Lunnar",
-    "KT Húsið",
-    "Tabletop Føroyar",
+    // Confirmed 20 July 2026 by Hans Blaasvær (hans@kthusid.fo) — kr. 5.000.
+    { name: "KT Húsið", logo: "src/assets/images/sponsors/kt-husid.png" },
+    // Confirmed 16 July 2026 by SMS (studul@sms.fo) — kr. 5.000 gift card.
+    // They sponsor under the Miklagarður brand, which is why that, not "SMS",
+    // is the name shown.
+    {
+      name: "Miklagarður",
+      logo: "src/assets/images/sponsors/miklagardur.svg",
+      boxed: true,
+    },
   ],
 
   // Social / external links (from the current gj.fo footer).
