@@ -14,7 +14,11 @@ module.exports = {
   orgType: "Áhugafelagsskapur",
   vtal: "659436",
   founded: "2022",
-  address: "Lygnesvegur 11, 660 Søldarfjørður",
+  // Keep the trailing "Føroyar". It reads as redundant in Faroese — a
+  // proof-reader flagged it twice (issue #4, notes 5 + 10) — but the country
+  // has to be visible in the address for the Google for Nonprofits
+  // verification, which has complained about its absence before. It stays.
+  address: "Lygnesvegur 11, 660 Søldarfjørður, Føroyar",
   // The address published on the current gj.fo. NB(Hanna): the Usable sponsor
   // answer sheet still lists gamejamfo@gmail.com — confirm which is primary.
   email: "info@gj.fo",
