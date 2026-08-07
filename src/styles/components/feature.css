@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-2xl);
-  align-items: center;
+  align-items: stretch;
 }
 
 /* Photo on the right instead of the left. Alternating the side down a
@@ -21,28 +21,45 @@
 
 .feature__media {
   margin: 0;
+  position: relative;
+  /* Floor for short text columns — without it a two-line intro would
+     squash its photo into a letterbox strip. Roughly 3:2 at the width
+     these columns get. */
+  min-height: 22rem;
 }
 
-/* eleventy-img wraps each image in <picture>; make it a block so the
-   figure hugs the photo with no inline-gap underneath. */
+/* The photo is taken out of flow so the figure contributes no height of
+   its own: the row is sized by the text column, and the photo then
+   stretches to match it exactly. */
 .feature__media picture {
+  position: absolute;
+  inset: 0;
   display: block;
 }
 
 .feature__img {
   width: 100%;
-  /* 3:2 matches the source photos exactly, so the landscape shots are
-     shown whole — nobody gets cropped out of frame. */
-  aspect-ratio: 3 / 2;
+  height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 
-/* Upright shots keep their own shape rather than being cropped to a
-   letterbox. */
+/* Upright source shots crop from the middle by default, which can clip a
+   standing figure's head. Bias the frame upward to keep faces in. */
 .feature__img--portrait {
-  aspect-ratio: 3 / 4;
+  object-position: center 32%;
+}
+
+/* Cards sit in the text column; stretch them so the two sides line up
+   top and bottom. Plain text stays vertically centred instead. */
+.feature__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feature__body > .panel {
+  flex: 1 1 auto;
 }
 
 .feature__caption {
@@ -60,6 +77,22 @@
      below text it is meant to introduce. */
   .feature--reverse > .feature__media {
     order: 0;
+  }
+
+  /* Stacked there is no neighbouring column to match, so the photo goes
+     back to sizing itself and the out-of-flow trick is undone. */
+  .feature__media {
+    position: static;
+    min-height: 0;
+  }
+  .feature__media picture {
+    position: static;
+  }
+  .feature__img {
+    height: auto;
+    /* 3:2 matches the source photos exactly, so the landscape shots are
+       shown whole — nobody gets cropped out of frame. */
+    aspect-ratio: 3 / 2;
   }
   /* A tall portrait crop eats most of a phone screen; level it off. */
   .feature__img--portrait {
