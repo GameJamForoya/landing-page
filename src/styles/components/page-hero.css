@@ -48,6 +48,12 @@
   object-position: center 35%;
 }
 
+/* A room full of people: hold the true centre so the back rows keep their
+   headroom. Past ~65% the crop eats into them. */
+.page-hero__img--crowd {
+  object-position: center 50%;
+}
+
 /* Teal scrim. Light at the top so the photo still reads, deepening
    toward the bottom where the title and intro sit — that is what
    carries the white text over a busy photograph. */
