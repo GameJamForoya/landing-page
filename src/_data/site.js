@@ -86,7 +86,7 @@ module.exports = {
   // NB: Global GameJam editions are named for the season that FOLLOWS the
   // September they were held in — that's the existing convention, kept as-is.
   pastEvents: [
-    { name: "Tonik GameJam 2026", date: "", venue: "Hugskotið, Tórshavn",
+    { name: "Tonik GameJam 2026", date: "1. mai 2026", venue: "Hugskotið, Tórshavn",
       games: "https://itch.io/jam/tonik-gamejam-2026/entries" },
     { name: "Global GameJam Føroyar 2026", date: "5. september 2025", venue: "Hugskotið, Tórshavn",
       games: "https://globalgamejam.org/group/11600/games" },
