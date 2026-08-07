@@ -41,6 +41,13 @@
   object-position: center 65%;
 }
 
+/* Close shots where faces sit high in the frame need their own framing —
+   the wide-room default would crop heads off. Anything past ~40% starts
+   clipping the top of the nearest head. */
+.page-hero__img--faces {
+  object-position: center 35%;
+}
+
 /* Teal scrim. Light at the top so the photo still reads, deepening
    toward the bottom where the title and intro sit — that is what
    carries the white text over a busy photograph. */
