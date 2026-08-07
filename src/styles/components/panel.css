@@ -21,13 +21,20 @@
 /* Small red badge, e.g. an event date pill */
 .badge {
   display: inline-block;
-  padding: var(--space-xs) var(--space-md);
+  /* Enough air that the text still breathes when a long date wraps to two
+     lines — at 4px it sat squeezed between the pill's rounded caps. */
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-full);
   background: var(--brand-red-strong);
   color: #fff;
   font-size: var(--text-sm);
+  /* Body line-height is set for prose; a short uppercase label wants tighter. */
+  line-height: 1.4;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  /* Even out the lines rather than stranding a lone "2026". `pretty` rather
+     than `balance`: balance breaks inside the date range ("11.–" / "13."). */
+  text-wrap: pretty;
 }
 
 .panel__title {
