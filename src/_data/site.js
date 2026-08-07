@@ -61,16 +61,18 @@ module.exports = {
   },
 
   // "Royn teg innan" — the nine ways to take part (from the banner).
+  // `slug` picks the marker colour: each one has a --dot-<slug> token in
+  // styles/main.css. Add a discipline here and add its token there too.
   disciplines: [
-    "Forritan",
-    "Tónleikur",
-    "Grafikkur",
-    "Ljóð",
-    "Projektleiðsla",
-    "List",
-    "Reglasmíð",
-    "Handverk",
-    "Søgulist",
+    { name: "Forritan", slug: "forritan" },
+    { name: "Tónleikur", slug: "tonleikur" },
+    { name: "Grafikkur", slug: "grafikkur" },
+    { name: "Ljóð", slug: "ljod" },
+    { name: "Projektleiðsla", slug: "projektleidsla" },
+    { name: "List", slug: "list" },
+    { name: "Reglasmíð", slug: "reglasmid" },
+    { name: "Handverk", slug: "handverk" },
+    { name: "Søgulist", slug: "sogulist" },
   ],
 
   // Next event. TODO(Hanna): confirm — Usable source-of-truth says 4 Sep 2026 at

@@ -56,7 +56,7 @@ description: GameJam Føroya er ein áhugafelagsskapur, sum arbeiðir fyri at me
     </p>
     <ul class="disciplines__grid" role="list">
       {%- for discipline in site.disciplines %}
-      <li class="disciplines__item">{{ discipline }}</li>
+      <li class="disciplines__item disciplines__item--{{ discipline.slug }}">{{ discipline.name }}</li>
       {%- endfor %}
     </ul>
   </div>
