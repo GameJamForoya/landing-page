@@ -73,10 +73,12 @@
     grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
-  /* Stacked, the photo always leads — reversing it here would drop it
-     below text it is meant to introduce. */
+  /* Stacked, the text always leads and the photo follows it — on a narrow
+     screen a photo above the heading pushes the words that explain it off
+     the first screenful. Both selectors, so --reverse cannot flip it back. */
+  .feature__media,
   .feature--reverse > .feature__media {
-    order: 0;
+    order: 2;
   }
 
   /* Stacked there is no neighbouring column to match, so the photo goes
