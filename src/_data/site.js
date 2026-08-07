@@ -108,7 +108,7 @@ module.exports = {
       games: "https://itch.io/jam/gamejam-froya-2022/entries" },
     { name: "Global GameJam Føroya 2022", date: "10. september 2021", venue: "Á netinum (Discord)",
       games: "https://globalgamejam.org/2022/jam-sites/global-gamejam-f%C3%B8roya/games" },
-    { name: "GameJam Føroya 2021", date: "", venue: "Klintra, Tórshavn",
+    { name: "GameJam Føroya 2021", date: "10. september 2021", venue: "Klintra, Tórshavn",
       games: "https://itch.io/jam/gamejam-foroya-2021/entries" },
   ],
 
