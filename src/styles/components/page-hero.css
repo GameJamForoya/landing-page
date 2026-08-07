@@ -33,9 +33,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Keep the upper half of a venue shot — that is where the room and
-     the ceiling are, rather than a foreground of chair backs. */
-  object-position: center 40%;
+  /* Framed low enough to land on the people. Higher than this and the
+     banner is mostly ceiling; lower and it closes in on the tables and
+     loses the sense of the room. */
+  object-position: center 65%;
 }
 
 /* Teal scrim. Light at the top so the photo still reads, deepening
