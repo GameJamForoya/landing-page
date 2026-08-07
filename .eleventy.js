@@ -65,7 +65,9 @@ module.exports = function (eleventyConfig) {
       // eleventy-img copy the file through and skip the raster variants.
       const isSvg = src.toLowerCase().endsWith(".svg");
       const metadata = await Image(src, {
-        widths: isSvg ? ["auto"] : [320, 480, 640, 960],
+        // Up to 1920 so a full-bleed banner on a wide screen still has a
+        // variant to reach for instead of upscaling the 960.
+        widths: isSvg ? ["auto"] : [320, 480, 640, 960, 1280, 1920],
         // webp + the source's own format (null) → PNG keeps logo transparency,
         // JPEG stays JPEG for photos. Best of both.
         formats: isSvg ? ["svg"] : ["webp", null],
