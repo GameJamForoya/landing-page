@@ -38,7 +38,7 @@ module.exports = {
 
   // Default SEO copy — pages can override via front matter (title/description).
   description:
-    "GameJam Føroya fremur telduspælmentan og spælmenning í Føroyum — vit skipa fyri game jams, verkstovum og fyrilestrum fyri øll, ið eru áhugað í spølum og spælmenning.",
+    "GameJam Føroya fremur telduspælmentan og spælmenning í Føroyum — vit skipa fyri game jams fyri øll, ið eru áhugað í spølum og spælmenning.",
 
   // Primary navigation — rendered by partials/nav.njk.
   nav: [
@@ -150,7 +150,7 @@ module.exports = {
 
   // Short mission line for the footer.
   mission:
-    "GameJam Føroya fremur spælmenning og telduspælmentan í Føroyum — við árligum game jams, verkstovum og fyrilestrum. Øll eru vælkomin.",
+    "GameJam Føroya fremur spælmenning og telduspælmentan í Føroyum — við árligum game jams. Øll eru vælkomin.",
 
   // English legal-identity sentence. This exists for the gj.fo domain ↔ org
   // verification (Google Workspace for Nonprofits) — an English reviewer needs
