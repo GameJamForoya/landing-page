@@ -88,34 +88,42 @@ module.exports = {
       "https://docs.google.com/forms/d/e/1FAIpQLSeEnwnvlHlyZ4iM-pn5g5F91TSqQUN3P-gFUYn3TRAUXEpdtg/viewform",
   },
 
+  // Logo per event series. `series` on each event below points at one of
+  // these, so a logo path is written once rather than repeated per jam.
+  seriesLogos: {
+    gjf: "src/assets/images/gamejam-logo.png",
+    tonik: "src/assets/images/Tonik GameJam logo.png",
+    ggj: "src/assets/images/globalgamejamlogo.svg",
+  },
+
   // Past events, newest first — mirrors the archive on the old gj.fo site.
   // `games` links to where that jam's entries live (itch.io / globalgamejam).
   // NB: Global GameJam editions are named for the season that FOLLOWS the
   // September they were held in — that's the existing convention, kept as-is.
   pastEvents: [
-    { name: "Tonik GameJam 2026", date: "1. mai 2026", venue: "Hugskotið, Tórshavn",
+    { name: "Tonik GameJam 2026", series: "tonik", date: "1. mai 2026", venue: "Hugskotið, Tórshavn",
       games: "https://itch.io/jam/tonik-gamejam-2026/entries" },
-    { name: "Global GameJam Føroyar 2026", date: "5. september 2025", venue: "Hugskotið, Tórshavn",
+    { name: "Global GameJam Føroyar 2026", series: "ggj", date: "5. september 2025", venue: "Hugskotið, Tórshavn",
       games: "https://globalgamejam.org/group/11600/games" },
-    { name: "GameJam Føroya 2025", date: "2. mai 2025", venue: "Skúlin á Fløtum, Tórshavn",
+    { name: "GameJam Føroya 2025", series: "gjf", date: "2. mai 2025", venue: "Skúlin á Fløtum, Tórshavn",
       games: "https://itch.io/jam/gamejam-froya-2025/entries" },
-    { name: "Tonik GameJam 2025", date: "24. januar 2025", venue: "Skúlin á Fløtum, Tórshavn",
+    { name: "Tonik GameJam 2025", series: "tonik", date: "24. januar 2025", venue: "Skúlin á Fløtum, Tórshavn",
       games: "https://itch.io/jam/tonik-gamejam-2025/entries" },
-    { name: "Global GameJam Føroyar 2025", date: "6. september 2024", venue: "Fróðskaparsetrið, Tórshavn",
+    { name: "Global GameJam Føroyar 2025", series: "ggj", date: "6. september 2024", venue: "Fróðskaparsetrið, Tórshavn",
       games: "https://globalgamejam.org/group/11600/games" },
-    { name: "GameJam Føroya 2024", date: "26. januar 2024", venue: "Skúlin á Fløtum, Tórshavn",
+    { name: "GameJam Føroya 2024", series: "gjf", date: "26. januar 2024", venue: "Skúlin á Fløtum, Tórshavn",
       games: "https://itch.io/jam/gamejam-froya-2024/entries" },
-    { name: "Global GameJam Føroyar 2024", date: "8. september 2023", venue: "Fróðskaparsetrið, Tórshavn",
+    { name: "Global GameJam Føroyar 2024", series: "ggj", date: "8. september 2023", venue: "Fróðskaparsetrið, Tórshavn",
       games: "https://globalgamejam.org/group/81/games" },
-    { name: "GameJam Føroya 2023", date: "3. februar 2023", venue: "Skúlin á Fløtum, Tórshavn",
+    { name: "GameJam Føroya 2023", series: "gjf", date: "3. februar 2023", venue: "Skúlin á Fløtum, Tórshavn",
       games: "https://itch.io/jam/gamejam-froya-2023" },
-    { name: "Global GameJam Føroyar 2023", date: "9. september 2022", venue: "Fróðskaparsetrið, Tórshavn",
+    { name: "Global GameJam Føroyar 2023", series: "ggj", date: "9. september 2022", venue: "Fróðskaparsetrið, Tórshavn",
       games: "https://globalgamejam.org/2023/jam-sites/global-gamejam-f%C3%B8royar-2023" },
-    { name: "GameJam Føroya 2022", date: "28. januar 2022", venue: "Klintra, Tórshavn",
+    { name: "GameJam Føroya 2022", series: "gjf", date: "28. januar 2022", venue: "Klintra, Tórshavn",
       games: "https://itch.io/jam/gamejam-froya-2022/entries" },
-    { name: "Global GameJam Føroya 2022", date: "10. september 2021", venue: "Á netinum (Discord)",
+    { name: "Global GameJam Føroya 2022", series: "ggj", date: "10. september 2021", venue: "Á netinum (Discord)",
       games: "https://globalgamejam.org/2022/jam-sites/global-gamejam-f%C3%B8roya/games" },
-    { name: "GameJam Føroya 2021", date: "10. september 2021", venue: "Klintra, Tórshavn",
+    { name: "GameJam Føroya 2021", series: "gjf", date: "10. september 2021", venue: "Klintra, Tórshavn",
       games: "https://itch.io/jam/gamejam-foroya-2021/entries" },
   ],
 

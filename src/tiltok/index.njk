@@ -47,6 +47,13 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
     <ul class="events" role="list">
       {%- for event in site.pastEvents %}
       <li class="events__item">
+        {#- Series logo, decorative: the jam's name sits right beside it, so
+            describing it again would only be noise on a screen reader. -#}
+        {%- if site.seriesLogos[event.series] %}
+        <figure class="events__logo">
+          {% image site.seriesLogos[event.series], "", "56px", "events__logo-img", [112, 168] %}
+        </figure>
+        {%- endif %}
         <div class="events__info">
           <h3 class="events__name">{{ event.name }}</h3>
           <p class="events__meta">
