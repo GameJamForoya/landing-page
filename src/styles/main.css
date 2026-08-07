@@ -62,6 +62,23 @@
   --color-cta-dark: var(--brand-red-dark);
   --color-accent: var(--brand-teal);
 
+  /* --- Discipline markers ("Royn teg innan") --------------
+     One hue per craft, chosen to echo the word rather than to decorate:
+     code green, music violet, print magenta, sound amber, and so on. Two
+     of the nine reuse the brand colours so the set stays anchored.
+     All verified at >= 3:1 against the white card (WCAG 1.4.11). Purely
+     decorative — the label always sits beside the dot, so no meaning is
+     carried by colour alone. */
+  --dot-forritan: #1f8a4c;         /* forest green — code on a terminal */
+  --dot-tonleikur: #7a4bc4;        /* violet — music */
+  --dot-grafikkur: #c2317e;        /* magenta — the print primary */
+  --dot-ljod: #c87a0a;             /* amber — a warm waveform */
+  --dot-projektleidsla: #5a7184;   /* slate — calm and organising */
+  --dot-list: var(--brand-red);    /* brand red — paint */
+  --dot-reglasmid: var(--brand-teal-deep); /* brand teal — structure, rules */
+  --dot-handverk: #8a5a2b;         /* brown — wood and clay */
+  --dot-sogulist: #24427a;         /* deep navy — ink */
+
   /* --- On teal (nav / hero / footer) --------------------- */
   --on-teal: #f4f4f4;
   --on-teal-muted: rgba(244, 244, 244, 0.82);
@@ -130,7 +147,10 @@ h1, h2, h3, h4 {
 }
 
 a { color: var(--brand-teal-deep); text-decoration: none; transition: color var(--transition), opacity var(--transition); }
-a:hover { color: var(--color-heading); }
+/* Buttons are excluded: `a:hover` (0,1,1) outweighs `.button--primary`
+   (0,1,0), so an unscoped rule here repaints white button text dark teal
+   on hover. Buttons set their own hover colours below. */
+a:not(.button):hover { color: var(--color-heading); }
 
 img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 
@@ -160,15 +180,14 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--color-muted);
   max-width: 62ch;
 }
-
-/* Page heading block on subpages (no hero there) */
-.page-head { padding-bottom: var(--space-lg); }
-.page-head__title {
-  font-size: var(--text-4xl);
-  text-transform: uppercase;
-  line-height: 1.05;
-  margin-bottom: var(--space-md);
+/* The global reset zeroes every margin, so stacked leads would otherwise
+   run together. Give each one after the first a line's worth of air. */
+.section__lead + .section__lead {
+  margin-top: var(--space-md);
 }
+
+/* NB: the old .page-head block lived here. Every subpage now opens with the
+   photo banner instead — see styles/components/page-hero.css. */
 
 /* --- Accessibility helpers --------------------------------- */
 .skip-link {
@@ -206,8 +225,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 /* Primary = the red spark */
 .button--primary { background: var(--color-cta); color: #fff; box-shadow: var(--shadow-md); }
-.button--primary:hover { background: var(--color-cta-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.button--primary:hover { background: var(--color-cta-dark); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 
 /* Secondary = teal outline on light backgrounds */
 .button--secondary { background: transparent; color: var(--brand-teal-deep); border-color: var(--brand-teal); }
-.button--secondary:hover { background: var(--brand-teal); color: #fff; border-color: var(--brand-teal); }
+/* Deep teal, not the lighter --brand-teal: white on #039685 is only 3.68:1,
+   under the 4.5:1 AA floor for body-sized text. #026b5f clears it. */
+.button--secondary:hover { background: var(--brand-teal-deep); color: #fff; border-color: var(--brand-teal-deep); }

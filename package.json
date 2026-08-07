@@ -11,8 +11,8 @@
     "url": "https://github.com/GameJamForoya/landing-page.git"
   },
   "scripts": {
-    "start": "eleventy --serve --incremental",
-    "dev": "eleventy --serve --incremental",
+    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
     "build": "eleventy",
     "clean": "rm -rf _site"
   },

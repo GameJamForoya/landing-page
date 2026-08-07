@@ -56,7 +56,7 @@ module.exports = function (eleventyConfig) {
      <picture> element. Baked at build time — no client JS, great for SEO. */
   eleventyConfig.addAsyncShortcode(
     "image",
-    async function (src, alt, sizes = "100vw", className) {
+    async function (src, alt, sizes = "100vw", className, widths) {
       if (alt === undefined) {
         throw new Error(`Missing \`alt\` on image shortcode for: ${src}`);
       }
@@ -65,7 +65,17 @@ module.exports = function (eleventyConfig) {
       // eleventy-img copy the file through and skip the raster variants.
       const isSvg = src.toLowerCase().endsWith(".svg");
       const metadata = await Image(src, {
-        widths: isSvg ? ["auto"] : [320, 480, 640, 960],
+        // Up to 2048 — the native width of the event photos — so a full-bleed
+        // banner on a wide, high-DPI screen uses every pixel the source has
+        // instead of stretching a smaller variant. Callers can override for
+        // small fixed-size art (logos), where generating 2048px variants of a
+        // 5000px source is pure waste.
+        widths: isSvg ? ["auto"] : widths || [320, 480, 640, 960, 1280, 1920, 2048],
+        // The source JPEGs are already fairly compressed (~0.12 bytes/px), so
+        // re-encoding at a default quality visibly compounds their artefacts.
+        // A little more headroom keeps large photos from going crunchy.
+        sharpWebpOptions: { quality: 86 },
+        sharpJpegOptions: { quality: 84, mozjpeg: true },
         // webp + the source's own format (null) → PNG keeps logo transparency,
         // JPEG stays JPEG for photos. Best of both.
         formats: isSvg ? ["svg"] : ["webp", null],

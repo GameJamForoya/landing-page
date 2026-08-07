@@ -4,10 +4,16 @@ title: Samband
 description: Fá samband við GameJam Føroya — teldupostur, telefon og adressa.
 ---
 
-<section class="section page-head">
+<section class="page-hero">
+  {#- Decorative backdrop: the heading and intro carry the meaning, so the
+      photo takes an empty alt rather than reading a scene description out
+      before the page title. -#}
+  <figure class="page-hero__media" aria-hidden="true">
+    {% image "src/assets/images/Event Photos/people talking in the hallway one is wearing a GJF tshirt.jpg", "", "100vw", "page-hero__img page-hero__img--faces" %}
+  </figure>
   <div class="container">
-    <h1 class="page-head__title">Fá samband</h1>
-    <p class="section__lead">
+    <h1 class="page-hero__title">Fá samband</h1>
+    <p class="page-hero__lead">
       Hevur tú spurningar, vilt tú vera við, ella hugsar tú um at stuðla?
       Vit vilja fegin hoyra frá tær.
     </p>
@@ -18,21 +24,32 @@ description: Fá samband við GameJam Føroya — teldupostur, telefon og adress
   <div class="container">
     <div class="panel">
       <h2 class="section__title" id="reach-title">Skriva ella ring</h2>
-      <p class="contact__links">
-        <a href="mailto:{{ site.email }}">{{ site.email }}</a><br>
-        <a href="tel:{{ site.phone | replace(' ', '') }}">{{ site.phone }}</a>
-      </p>
-      <p class="section__lead">{{ site.address }}</p>
+      {#- The whole tile is the link, so it stays an easy tap on a phone.
+          The postal address lives in the "Felagsskapurin" panel below. -#}
+      <ul class="contact__methods" role="list">
+        <li>
+          <a class="contact__method" href="mailto:{{ site.email }}">
+            <span class="contact__label">Teldupostur</span>
+            <span class="contact__value">{{ site.email }}</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact__method" href="tel:{{ site.phone | replace(' ', '') }}">
+            <span class="contact__label">Telefon</span>
+            <span class="contact__value">{{ site.phone }}</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
 
 <section class="section" aria-labelledby="sponsor-title">
   <div class="container">
-    <h2 class="section__title" id="sponsor-title">Vilt tú stuðla?</h2>
+    <h2 class="section__title" id="sponsor-title">Kundi tú hugsað tær at stuðla?</h2>
     <p class="section__lead">
       Okkara tiltøk eru 100% ókeypis fyri luttakararnar. Stuðulin verður
-      nýttur til mat, drekka, vinningar og undirvísingartilfar.
+      nýttur til mat, drekka, vinningar, tilfar og náttarvakt.
       Skriva til okkum á <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
       so senda vit tær eina lýsing av møguleikum.
     </p>

@@ -1,0 +1,56 @@
+/* ============================================================
+   Component: contact (BEM)
+   The "Skriva ella ring" card on /samband/ — each way of reaching
+   us gets its own tile, side by side on desktop, stacked on phones.
+   ============================================================ */
+
+.contact__methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+  margin: 0;
+  margin-top: var(--space-lg);
+  padding: 0;
+  list-style: none;
+}
+
+/* One tile per contact method. The whole tile is the link target, so
+   it stays an easy tap on a phone. */
+.contact__method {
+  display: block;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  text-decoration: none;
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition), background var(--transition);
+}
+
+.contact__method:hover,
+.contact__method:focus-visible {
+  border-color: var(--brand-teal);
+  background: var(--color-surface);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.contact__label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.contact__value {
+  display: block;
+  font-size: var(--text-xl);
+  color: var(--brand-teal-deep);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .contact__methods { grid-template-columns: 1fr; gap: var(--space-md); }
+}

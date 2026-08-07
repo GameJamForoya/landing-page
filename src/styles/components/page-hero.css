@@ -1,0 +1,93 @@
+/* ============================================================
+   Component: page-hero (BEM)
+   A subpage banner with an event photo behind the title. Full-bleed,
+   so it echoes the teal hero on the home page instead of sitting a
+   photo awkwardly beside two lines of text.
+   ============================================================ */
+
+.page-hero {
+  position: relative;
+  /* New stacking context so the negative z-index layers below stay
+     trapped inside the banner and never slide under the page. */
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  /* Tall enough that the photo reads as a scene rather than a letterbox
+     slice — at 22rem the crop cut people off at the waist. */
+  min-height: 28rem;
+  padding-block: var(--space-3xl) var(--space-2xl);
+  overflow: hidden;
+  color: var(--on-teal);
+}
+
+/* The photo itself, held behind everything. */
+.page-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+}
+.page-hero__media picture {
+  display: block;
+  height: 100%;
+}
+.page-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Framed low enough to land on the people. Higher than this and the
+     banner is mostly ceiling; lower and it closes in on the tables and
+     loses the sense of the room. */
+  object-position: center 65%;
+}
+
+/* Close shots where faces sit high in the frame need their own framing —
+   the wide-room default would crop heads off. Anything past ~40% starts
+   clipping the top of the nearest head. */
+.page-hero__img--faces {
+  object-position: center 35%;
+}
+
+/* An overhead of the whole room: framed high enough to keep the windows and
+   the daylight behind the tables. From ~50% down it becomes all tabletop and
+   the room loses its air. */
+.page-hero__img--room {
+  object-position: center 40%;
+}
+
+/* Teal scrim. Light at the top so the photo still reads, deepening
+   toward the bottom where the title and intro sit — that is what
+   carries the white text over a busy photograph. */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand-teal-darker) 45%, transparent) 0%,
+    color-mix(in srgb, var(--brand-teal-darker) 78%, transparent) 55%,
+    color-mix(in srgb, var(--brand-teal-darker) 92%, transparent) 100%
+  );
+}
+
+.page-hero__title {
+  color: #fff;
+  font-size: var(--text-4xl);
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin-bottom: var(--space-md);
+}
+
+.page-hero__lead {
+  font-size: var(--text-lg);
+  color: var(--on-teal);
+  max-width: 52ch;
+}
+
+@media (max-width: 720px) {
+  .page-hero {
+    min-height: 18rem;
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+}

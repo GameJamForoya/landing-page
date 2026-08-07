@@ -4,10 +4,16 @@ title: Tiltøk
 description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur til spølini, sum vórðu gjørd.
 ---
 
-<section class="section page-head">
+<section class="page-hero">
+  {#- Decorative backdrop: the heading and intro carry the meaning, so the
+      photo takes an empty alt rather than reading a scene description out
+      before the page title. -#}
+  <figure class="page-hero__media" aria-hidden="true">
+    {% image "src/assets/images/Event Photos/wide shot of popele playtesting games.jpg", "", "100vw", "page-hero__img" %}
+  </figure>
   <div class="container">
-    <h1 class="page-head__title">Tiltøk</h1>
-    <p class="section__lead">
+    <h1 class="page-hero__title">Tiltøk</h1>
+    <p class="page-hero__lead">
       Her sært tú eitt yvirlit yvir tiltøkini hjá {{ site.name }} — og leinkjur
       til spølini, sum luttakararnir gjørdu.
     </p>
@@ -16,7 +22,7 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
 
 <section class="section" id="next" aria-labelledby="next-title">
   <div class="container">
-    <h2 class="section__title" id="next-title">Komandi tiltak</h2>
+    <h2 class="section__title" id="next-title">Komandi Tiltøk</h2>
     <div class="panel panel--highlight">
       <p><span class="badge">{{ site.event.date }}</span></p>
       <h3 class="panel__title">{{ site.event.name }}</h3>
@@ -26,7 +32,7 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
         <a href="{{ site.event.signupUrl }}"
            class="button button--primary"
            target="_blank"
-           rel="noopener">Skráset teg</a>
+           rel="noopener">Melda teg til</a>
         {%- else %}
         <a href="/samband/" class="button button--primary">Ver við</a>
         {%- endif %}
@@ -37,10 +43,17 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
 
 <section class="section" id="past" aria-labelledby="past-title">
   <div class="container">
-    <h2 class="section__title" id="past-title">Farin tiltøk</h2>
+    <h2 class="section__title" id="past-title">Undanfarin Tiltøk</h2>
     <ul class="events" role="list">
       {%- for event in site.pastEvents %}
       <li class="events__item">
+        {#- Series logo, decorative: the jam's name sits right beside it, so
+            describing it again would only be noise on a screen reader. -#}
+        {%- if site.seriesLogos[event.series] %}
+        <figure class="events__logo">
+          {% image site.seriesLogos[event.series], "", "56px", "events__logo-img", [112, 168] %}
+        </figure>
+        {%- endif %}
         <div class="events__info">
           <h3 class="events__name">{{ event.name }}</h3>
           <p class="events__meta">
@@ -52,7 +65,7 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
            href="{{ event.games }}"
            target="_blank"
            rel="noopener">
-          Sí spølini
+          Royn Spølini
           <span class="sr-only"> frá {{ event.name }}</span>
         </a>
       </li>

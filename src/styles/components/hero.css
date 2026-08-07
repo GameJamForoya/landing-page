@@ -72,6 +72,13 @@
   gap: var(--space-md);
 }
 
+/* When and where, under the call to action. Deliberately quiet — supporting
+   detail for the button above it, not a second thing to click. */
+.hero__event {
+  margin-top: var(--space-md);
+  font-size: var(--text-base);
+  color: var(--on-teal-muted);
+}
 /* On the teal hero, the secondary button switches to a light outline */
 .hero .button--secondary { color: #fff; border-color: rgba(244, 244, 244, 0.6); }
 .hero .button--secondary:hover { background: rgba(244, 244, 244, 0.14); border-color: #fff; color: #fff; }

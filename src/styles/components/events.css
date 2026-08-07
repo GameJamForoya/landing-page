@@ -1,22 +1,31 @@
 /* ============================================================
    Component: events (BEM)
-   The archive of past jams — one row per event, each linking to
-   the games made there.
+   The archive of past jams — a grid of cards, each linking to the
+   games made there. A grid rather than full-width rows: the archive
+   only grows, and twelve jams stacked in a single column is a lot of
+   scrolling for what is really a reference list.
    ============================================================ */
 
 .events {
   list-style: none;
   display: grid;
+  /* min(100%, …) lets the cards drop to one full-width column on phones
+     rather than overflowing a narrow screen. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
   gap: var(--space-md);
   margin-top: var(--space-xl);
 }
 
 .events__item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
+  /* Badge beside the name rather than stacked above it — same recognition,
+     and it keeps the archive short, which was the point of the grid.
+     space-between pins the link to the foot of the card. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: space-between;
+  column-gap: var(--space-md);
+  row-gap: var(--space-sm);
+  align-items: start;
   padding: var(--space-lg);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -29,12 +38,39 @@
   border-color: var(--brand-blue);
 }
 
-.events__info { min-width: 0; }
+/* Series badge. A fixed box with contain, because the three logos are
+   different shapes — two near-square, the Global GameJam mark landscape —
+   and they should still read as one row of badges. */
+.events__logo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.events__logo picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.events__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.events__info {
+  min-width: 0;
+}
 
 .events__name {
-  font-size: var(--text-xl);
+  /* A step down from the old row layout: names like "GLOBAL GAMEJAM
+     FØROYAR 2026" need to sit in a card, not a full-width row. */
+  font-size: var(--text-lg);
   text-transform: uppercase;
   color: var(--color-heading);
+  text-wrap: balance;
 }
 
 .events__meta {
@@ -43,14 +79,21 @@
   font-size: var(--text-sm);
 }
 
-/* Keep the action a comfortable tap target without dominating the row */
+/* Its own row under both columns, at the foot of the card, so every button
+   lines up across a row however far the name above it wraps. */
 .events__link {
-  flex: 0 0 auto;
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: var(--space-sm);
   padding: var(--space-sm) var(--space-lg);
   font-size: var(--text-base);
 }
 
 @media (max-width: 560px) {
-  .events__item { flex-direction: column; align-items: flex-start; }
-  .events__link { width: 100%; }
+  /* One card per row here, so the action can take the full width and be an
+     easy tap. */
+  .events__link {
+    justify-self: stretch;
+    text-align: center;
+  }
 }

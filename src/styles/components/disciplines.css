@@ -28,15 +28,15 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   overflow-wrap: anywhere;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition);
-}
-.disciplines__item:hover {
-  transform: translateY(-3px);
-  background: var(--brand-blue-soft);
-  border-color: var(--brand-blue);
 }
 
-/* Little red marker before each label */
+/* No hover state on purpose: these are labels, not links. Lifting and
+   tinting them under the cursor promises a click that never happens. */
+
+/* Little marker before each label. The colour is per discipline — see the
+   --dot-* tokens in main.css — so the row reads as a small legend of the
+   crafts rather than nine identical dots. Brand red is the fallback for any
+   discipline added without a matching token. */
 .disciplines__item::before {
   content: "";
   flex: 0 0 auto;
@@ -45,3 +45,13 @@
   border-radius: var(--radius-full);
   background: var(--brand-red);
 }
+
+.disciplines__item--forritan::before       { background: var(--dot-forritan); }
+.disciplines__item--tonleikur::before      { background: var(--dot-tonleikur); }
+.disciplines__item--grafikkur::before      { background: var(--dot-grafikkur); }
+.disciplines__item--ljod::before           { background: var(--dot-ljod); }
+.disciplines__item--projektleidsla::before { background: var(--dot-projektleidsla); }
+.disciplines__item--list::before           { background: var(--dot-list); }
+.disciplines__item--reglasmid::before      { background: var(--dot-reglasmid); }
+.disciplines__item--handverk::before       { background: var(--dot-handverk); }
+.disciplines__item--sogulist::before       { background: var(--dot-sogulist); }

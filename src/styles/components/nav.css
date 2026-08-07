@@ -7,8 +7,18 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--brand-teal);
   box-shadow: 0 2px 12px -4px rgba(2, 79, 70, 0.4);
+}
+
+/* The bar's teal lives on its own layer rather than on .header itself, so the
+   mobile menu panel can sit BEHIND it and slide out from underneath — instead
+   of passing across the front of the bar. */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--brand-teal);
+  z-index: 1;
 }
 
 .nav {
@@ -17,6 +27,18 @@
   justify-content: space-between;
   gap: var(--space-lg);
   padding-block: var(--space-md);
+}
+
+/* Lift the bar's contents above the teal layer.
+   NB: this must sit on the individual items, NOT on .nav — giving .nav a
+   z-index would make it a stacking context and seal .nav__menu inside it,
+   so the mobile panel could never drop behind the bar. The media query
+   below puts .nav__menu back down to z-index 0 on phones. */
+.nav__logo,
+.nav__toggle,
+.nav__menu {
+  position: relative;
+  z-index: 2;
 }
 
 .nav__logo {
@@ -70,18 +92,38 @@
   .nav__toggle { display: flex; }
 
   .nav__menu {
+    /* Where the panel hangs from. Kept a touch shorter than the bar's real
+       height so the panel's top tucks under it — erring the other way would
+       leave a hairline of page showing between bar and panel. */
+    --nav-offset: 64px;
+
     position: fixed;
-    inset: 64px 0 auto 0;
+    inset: var(--nav-offset) 0 auto 0;
     flex-direction: column;
     align-items: stretch;
     gap: var(--space-xs);
     padding: var(--space-lg);
     background: var(--brand-teal-deep);
     box-shadow: var(--shadow-lg);
-    transform: translateY(-120%);
-    transition: transform var(--transition);
+
+    /* Behind the bar (which is z-index 2), so the panel tucks underneath it. */
+    z-index: 0;
+
+    /* Closed, the panel sits exactly its own height higher — putting its
+       bottom edge level with the top of the bar, hidden behind it. Opening
+       slides it down from under the bar. (The old -120% was a guess at the
+       panel's height: too short, and a sliver showed above the bar.)
+       visibility also takes the closed panel out of the tab order and away
+       from screen readers — it flips only once the slide has finished. */
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform var(--transition), visibility 0s linear var(--transition);
   }
-  .nav__menu--open { transform: translateY(0); }
+  .nav__menu--open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform var(--transition), visibility 0s;
+  }
   .nav__link { text-align: center; }
 
   /* Hamburger → X when open */
