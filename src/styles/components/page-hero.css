@@ -48,10 +48,11 @@
   object-position: center 35%;
 }
 
-/* A room full of people: hold the true centre so the back rows keep their
-   headroom. Past ~65% the crop eats into them. */
+/* A standing group: sit high enough that the nearest figures keep their
+   headroom. From ~50% down, the crop starts clipping the head at the left
+   edge. */
 .page-hero__img--crowd {
-  object-position: center 50%;
+  object-position: center 40%;
 }
 
 /* Teal scrim. Light at the top so the photo still reads, deepening
