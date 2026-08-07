@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  {#- Paint the mobile browser's own top bar the same teal as the sticky
+      header, so the two read as one band instead of a darker strip above
+      the site. color-scheme keeps phones from force-darkening the page. -#}
+  <meta name="theme-color" content="{{ site.themeColor }}">
+  <meta name="color-scheme" content="only light">
+
   {#- SEO: title/description fall back to site-wide defaults when a page omits them -#}
   <title>{% if title %}{{ title }} | {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">

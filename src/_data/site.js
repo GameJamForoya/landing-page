@@ -36,6 +36,11 @@ module.exports = {
   url: "https://gj.fo",
   lang: "fo",
 
+  // Colour a mobile browser paints its own top bar with, so it matches the
+  // sticky header instead of showing a darker strip above the site.
+  // Keep in sync with --brand-teal in styles/main.css.
+  themeColor: "#039685",
+
   // Default SEO copy — pages can override via front matter (title/description).
   description:
     "GameJam Føroya fremur telduspælmentan og spælmenning í Føroyum — vit skipa fyri game jams fyri øll, ið eru áhugað í spølum og spælmenning.",
