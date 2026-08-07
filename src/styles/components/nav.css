@@ -22,13 +22,23 @@
 }
 
 .nav {
-  position: relative;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-lg);
   padding-block: var(--space-md);
+}
+
+/* Lift the bar's contents above the teal layer.
+   NB: this must sit on the individual items, NOT on .nav — giving .nav a
+   z-index would make it a stacking context and seal .nav__menu inside it,
+   so the mobile panel could never drop behind the bar. The media query
+   below puts .nav__menu back down to z-index 0 on phones. */
+.nav__logo,
+.nav__toggle,
+.nav__menu {
+  position: relative;
+  z-index: 2;
 }
 
 .nav__logo {
