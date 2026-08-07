@@ -56,6 +56,11 @@ title: Heim
 
 <section class="section" id="about" aria-labelledby="about-title">
   <div class="container">
+    <div class="feature">
+    <figure class="feature__media">
+      {% image "src/assets/images/Event Photos/3 guys play testing a video game.jpg", "Tríggir luttakarar við eitt arbeiðsborð: ein situr við knappaborðinum við hoyritelefonum, og hinir báðir hyggja við og smíla.", "(max-width: 820px) 100vw, 46vw", "feature__img feature__img--portrait" %}
+    </figure>
+    <div class="feature__body">
     <div class="panel">
       <h2 class="section__title" id="about-title">Hvat er GameJam Føroya?</h2>
       <p class="section__lead">
@@ -72,6 +77,8 @@ title: Heim
       <p class="panel__actions">
         <a href="/um-okkum/" class="button button--secondary">Les meira um okkum</a>
       </p>
+    </div>
+    </div>
     </div>
   </div>
 </section>
@@ -99,11 +106,18 @@ title: Heim
 
 <section class="section" id="disciplines" aria-labelledby="disciplines-title">
   <div class="container">
-    <h2 class="section__title" id="disciplines-title">Royn teg innan</h2>
-    <p class="section__lead">
-      Tað er ikki eitt krav, at tú dugir at forrita fyri at vera við. Eitt game
-      jam livir av ymiskum evnum — finn títt:
-    </p>
+    <div class="feature feature--reverse">
+      <figure class="feature__media">
+        {% image "src/assets/images/Event Photos/people play testing a board game (3).jpg", "Luttakarar royna eitt borðspæl saman við eitt borð — teningar, reglublöð og eitt tímaglas liggja frammi.", "(max-width: 820px) 100vw, 46vw", "feature__img" %}
+      </figure>
+      <div class="feature__body">
+        <h2 class="section__title" id="disciplines-title">Royn teg innan</h2>
+        <p class="section__lead">
+          Tað er ikki eitt krav, at tú dugir at forrita fyri at vera við. Eitt game
+          jam livir av ymiskum evnum — finn títt:
+        </p>
+      </div>
+    </div>
     <ul class="disciplines__grid" role="list">
       {%- for discipline in site.disciplines %}
       <li class="disciplines__item disciplines__item--{{ discipline.slug }}">{{ discipline.name }}</li>
@@ -115,6 +129,11 @@ title: Heim
 <section class="section" id="events" aria-labelledby="events-title">
   <div class="container">
     <h2 class="section__title" id="events-title">Komandi tiltak</h2>
+    <div class="feature feature--reverse">
+    <figure class="feature__media">
+      {% image "src/assets/images/Event Photos/people queued up for pizza.jpg", "Luttakarar standa við eitt langborð og fáa sær pizza; frukt og drekka standa á endanum av borðinum.", "(max-width: 820px) 100vw, 46vw", "feature__img" %}
+    </figure>
+    <div class="feature__body">
     <div class="panel panel--highlight">
       <p><span class="badge">{{ site.event.date }}</span></p>
       <h3 class="panel__title">{{ site.event.name }}</h3>
@@ -130,6 +149,8 @@ title: Heim
         {%- endif %}
         <a href="/tiltok/" class="button button--secondary">Øll tiltøk</a>
       </p>
+    </div>
+    </div>
     </div>
   </div>
 </section>
