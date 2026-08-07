@@ -48,10 +48,10 @@
   object-position: center 35%;
 }
 
-/* A standing group: sit high enough that the nearest figures keep their
-   headroom. From ~50% down, the crop starts clipping the head at the left
-   edge. */
-.page-hero__img--crowd {
+/* An overhead of the whole room: framed high enough to keep the windows and
+   the daylight behind the tables. From ~50% down it becomes all tabletop and
+   the room loses its air. */
+.page-hero__img--room {
   object-position: center 40%;
 }
 
