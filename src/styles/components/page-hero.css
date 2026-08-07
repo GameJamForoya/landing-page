@@ -12,7 +12,9 @@
   isolation: isolate;
   display: flex;
   align-items: flex-end;
-  min-height: 22rem;
+  /* Tall enough that the photo reads as a scene rather than a letterbox
+     slice — at 22rem the crop cut people off at the waist. */
+  min-height: 28rem;
   padding-block: var(--space-3xl) var(--space-2xl);
   overflow: hidden;
   color: var(--on-teal);

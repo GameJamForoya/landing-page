@@ -65,9 +65,15 @@ module.exports = function (eleventyConfig) {
       // eleventy-img copy the file through and skip the raster variants.
       const isSvg = src.toLowerCase().endsWith(".svg");
       const metadata = await Image(src, {
-        // Up to 1920 so a full-bleed banner on a wide screen still has a
-        // variant to reach for instead of upscaling the 960.
-        widths: isSvg ? ["auto"] : [320, 480, 640, 960, 1280, 1920],
+        // Up to 2048 — the native width of the event photos — so a full-bleed
+        // banner on a wide, high-DPI screen uses every pixel the source has
+        // instead of stretching a smaller variant.
+        widths: isSvg ? ["auto"] : [320, 480, 640, 960, 1280, 1920, 2048],
+        // The source JPEGs are already fairly compressed (~0.12 bytes/px), so
+        // re-encoding at a default quality visibly compounds their artefacts.
+        // A little more headroom keeps large photos from going crunchy.
+        sharpWebpOptions: { quality: 86 },
+        sharpJpegOptions: { quality: 84, mozjpeg: true },
         // webp + the source's own format (null) → PNG keeps logo transparency,
         // JPEG stays JPEG for photos. Best of both.
         formats: isSvg ? ["svg"] : ["webp", null],
