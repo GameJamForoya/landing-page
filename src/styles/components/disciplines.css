@@ -28,13 +28,10 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   overflow-wrap: anywhere;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition);
 }
-.disciplines__item:hover {
-  transform: translateY(-3px);
-  background: var(--brand-blue-soft);
-  border-color: var(--brand-blue);
-}
+
+/* No hover state on purpose: these are labels, not links. Lifting and
+   tinting them under the cursor promises a click that never happens. */
 
 /* Little marker before each label. The colour is per discipline — see the
    --dot-* tokens in main.css — so the row reads as a small legend of the

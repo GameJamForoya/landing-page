@@ -147,7 +147,10 @@ h1, h2, h3, h4 {
 }
 
 a { color: var(--brand-teal-deep); text-decoration: none; transition: color var(--transition), opacity var(--transition); }
-a:hover { color: var(--color-heading); }
+/* Buttons are excluded: `a:hover` (0,1,1) outweighs `.button--primary`
+   (0,1,0), so an unscoped rule here repaints white button text dark teal
+   on hover. Buttons set their own hover colours below. */
+a:not(.button):hover { color: var(--color-heading); }
 
 img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 
@@ -222,8 +225,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 /* Primary = the red spark */
 .button--primary { background: var(--color-cta); color: #fff; box-shadow: var(--shadow-md); }
-.button--primary:hover { background: var(--color-cta-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.button--primary:hover { background: var(--color-cta-dark); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 
 /* Secondary = teal outline on light backgrounds */
 .button--secondary { background: transparent; color: var(--brand-teal-deep); border-color: var(--brand-teal); }
-.button--secondary:hover { background: var(--brand-teal); color: #fff; border-color: var(--brand-teal); }
+/* Deep teal, not the lighter --brand-teal: white on #039685 is only 3.68:1,
+   under the 4.5:1 AA floor for body-sized text. #026b5f clears it. */
+.button--secondary:hover { background: var(--brand-teal-deep); color: #fff; border-color: var(--brand-teal-deep); }
