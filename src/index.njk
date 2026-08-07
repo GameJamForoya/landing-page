@@ -35,6 +35,12 @@ title: Heim
         <a href="/tiltok/" class="button button--primary">Sí komandi tiltak</a>
         {%- endif %}
       </div>
+      {#- When and where, right under the call to action — the front page has
+          no separate events panel, so this is where a visitor finds it. -#}
+      <p class="hero__event">
+        {{ site.event.date }} · {{ site.event.venue }}
+        <a href="/tiltok/" class="hero__event-link">Øll tiltøk</a>
+      </p>
     </div>
 
     {#- Logo art fills this once dropped at src/assets/images/gamejam-logo.png -#}
@@ -116,35 +122,6 @@ title: Heim
       <li class="disciplines__item disciplines__item--{{ discipline.slug }}">{{ discipline.name }}</li>
       {%- endfor %}
     </ul>
-  </div>
-</section>
-
-<section class="section" id="events" aria-labelledby="events-title">
-  <div class="container">
-    <h2 class="section__title" id="events-title">Komandi tiltak</h2>
-    <div class="feature feature--reverse">
-    <figure class="feature__media">
-      {% image "src/assets/images/Event Photos/people queued up for pizza.jpg", "Luttakarar standa við eitt langborð og fáa sær pizza; frukt og drekka standa á endanum av borðinum.", "(max-width: 820px) 100vw, 46vw", "feature__img" %}
-    </figure>
-    <div class="feature__body">
-    <div class="panel panel--highlight">
-      <p><span class="badge">{{ site.event.date }}</span></p>
-      <h3 class="panel__title">{{ site.event.name }}</h3>
-      <p class="section__lead">{{ site.event.venue }} · {{ site.event.note }}</p>
-      <p class="panel__actions">
-        {%- if site.event.signupUrl %}
-        <a href="{{ site.event.signupUrl }}"
-           class="button button--primary"
-           target="_blank"
-           rel="noopener">Melda teg til</a>
-        {%- else %}
-        <a href="/samband/" class="button button--primary">Ver við</a>
-        {%- endif %}
-        <a href="/tiltok/" class="button button--secondary">Øll tiltøk</a>
-      </p>
-    </div>
-    </div>
-    </div>
   </div>
 </section>
 

@@ -72,6 +72,25 @@
   gap: var(--space-md);
 }
 
+/* When and where, under the call to action. Deliberately quiet — supporting
+   detail for the button above it, not a second thing to click. */
+.hero__event {
+  margin-top: var(--space-md);
+  font-size: var(--text-base);
+  color: var(--on-teal-muted);
+}
+.hero__event-link {
+  color: var(--on-teal);
+  margin-left: var(--space-sm);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: rgba(244, 244, 244, 0.5);
+}
+.hero__event-link:hover {
+  color: #fff;
+  text-decoration-color: #fff;
+}
+
 /* On the teal hero, the secondary button switches to a light outline */
 .hero .button--secondary { color: #fff; border-color: rgba(244, 244, 244, 0.6); }
 .hero .button--secondary:hover { background: rgba(244, 244, 244, 0.14); border-color: #fff; color: #fff; }
