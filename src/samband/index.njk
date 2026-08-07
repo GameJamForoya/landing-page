@@ -18,11 +18,22 @@ description: Fá samband við GameJam Føroya — teldupostur, telefon og adress
   <div class="container">
     <div class="panel">
       <h2 class="section__title" id="reach-title">Skriva ella ring</h2>
-      <p class="contact__links">
-        <a href="mailto:{{ site.email }}">{{ site.email }}</a><br>
-        <a href="tel:{{ site.phone | replace(' ', '') }}">{{ site.phone }}</a>
-      </p>
-      <p class="section__lead">{{ site.address }}</p>
+      {#- The whole tile is the link, so it stays an easy tap on a phone.
+          The postal address lives in the "Felagsskapurin" panel below. -#}
+      <ul class="contact__methods" role="list">
+        <li>
+          <a class="contact__method" href="mailto:{{ site.email }}">
+            <span class="contact__label">Teldupostur</span>
+            <span class="contact__value">{{ site.email }}</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact__method" href="tel:{{ site.phone | replace(' ', '') }}">
+            <span class="contact__label">Telefon</span>
+            <span class="contact__value">{{ site.phone }}</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </section>

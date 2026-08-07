@@ -42,13 +42,6 @@
   margin-top: var(--space-lg);
 }
 
-/* Contact email / phone — readable dark-teal links on the white panel */
-.contact__links {
-  margin-top: var(--space-md);
-  font-size: var(--text-lg);
-  line-height: 2;
-}
-
 @media (max-width: 720px) {
   .panel { padding: var(--space-xl); }
 }
