@@ -458,26 +458,29 @@
     logoEl.style.transition = "transform 700ms ease, opacity 700ms ease";
     logoEl.style.transform = "translate(" + boss.ox + "px," + boss.oy + "px) scale(0.25) rotate(14deg)";
     logoEl.style.opacity = "0";
-    showMsg("Vunnið!", "Tú vann á bossanum.");
+    showMsg("Tú hevur vunnið!");
   }
 
   function lose() {
     over = true;
-    showMsg("Endað", "Bossin vann henda ferðina.");
+    showMsg("Tú tapti...");
   }
 
+  // `sub` is optional — the win/lose messages carry no subtitle, and an empty
+  // paragraph would still take up space above the buttons.
   function showMsg(title, sub) {
     msgEl = document.createElement("div");
     msgEl.className = "game__msg";
     msgEl.setAttribute("role", "status");
     msgEl.innerHTML =
-      '<p class="game__msg-title"></p><p class="game__msg-sub"></p>' +
+      '<p class="game__msg-title"></p>' +
+      (sub ? '<p class="game__msg-sub"></p>' : "") +
       '<span class="game__msg-actions">' +
       '<button type="button" class="button button--primary" data-retry>Royn aftur</button>' +
       '<button type="button" class="button button--secondary" data-exit>Enda</button>' +
       "</span>";
     q(".game__msg-title", msgEl).textContent = title;
-    q(".game__msg-sub", msgEl).textContent = sub;
+    if (sub) q(".game__msg-sub", msgEl).textContent = sub;
     hero.appendChild(msgEl);
     q("[data-retry]", msgEl).addEventListener("click", retry);
     q("[data-exit]", msgEl).addEventListener("click", exit);
