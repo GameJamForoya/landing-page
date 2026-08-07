@@ -160,6 +160,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: var(--color-muted);
   max-width: 62ch;
 }
+/* The global reset zeroes every margin, so stacked leads would otherwise
+   run together. Give each one after the first a line's worth of air. */
+.section__lead + .section__lead {
+  margin-top: var(--space-md);
+}
 
 /* Page heading block on subpages (no hero there) */
 .page-head { padding-bottom: var(--space-lg); }
