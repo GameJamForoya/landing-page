@@ -118,9 +118,10 @@ module.exports = {
   // companies must not appear here — publishing a logo before the sponsorship
   // is agreed misrepresents them. Add each one as its confirmation lands, and
   // clear the list back out when the next event's round of asks begins.
-  // Awaiting a reply for 2026: Klintra, Formula, Nema, Elektron, Lunnar,
-  // Tabletop Føroyar, Posta, Vinnuframi, BankNordik, PM — see the "GameJam
-  // Føroyar Sponsors" sheet in Drive for live status.
+  // Awaiting a reply for 2026: Nema, Føroya Tele, Føroya Banki, Lunnar.
+  // Declined for 2026: Klintra, Posta. PM support is in-kind (a drinks
+  // discount), so they are not listed here. See the "GameJam 2026 — Sponsor
+  // Campaign Overview & Status" fragment in Usable for live status.
   //
   // `logo` is a source path handed to the `image` shortcode, which bakes an
   // optimised WebP/SVG into /img/ at build time; a sponsor without one falls
@@ -136,6 +137,22 @@ module.exports = {
     {
       name: "Miklagarður",
       logo: "src/assets/images/sponsors/miklagardur.svg",
+      boxed: true,
+    },
+    // Confirmed 25 August 2026 by Árni Arge (aa@formula.fo) — kr. 5.000.
+    // Source artwork was cropped to the wordmark: the Drive file carries a
+    // stray gold rule ~150px to its right, left over from a wider lockup.
+    { name: "Formula", logo: "src/assets/images/sponsors/formula.png" },
+    // Confirmed 25 August 2026 by Jana (Marketing@elektron.fo) — kr. 5.000.
+    { name: "Elektron", logo: "src/assets/images/sponsors/elektron.png" },
+    // Confirmed August 2026 via Olaf Sundstein Olsen — DKK 10.000, the
+    // largest of 2026. Agreed verbally rather than in writing; published on
+    // Jóhann's explicit call (see the Ice Innovation Sponsor Progress
+    // fragment in Usable). Near-square mark, so it is boxed to keep it from
+    // optically outweighing the flat wordmarks beside it.
+    {
+      name: "Ice Innovation",
+      logo: "src/assets/images/sponsors/ice-innovation.png",
       boxed: true,
     },
   ],
