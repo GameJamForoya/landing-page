@@ -31,12 +31,26 @@ const IS_DEV =
   process.env.ELEVENTY_RUN_MODE === "serve" ||
   process.env.ELEVENTY_RUN_MODE === "watch";
 const HAS_CUSTOM_DOMAIN = fs.existsSync("src/public/CNAME");
+/* PATH_PREFIX escape hatch — used by the PR preview build, which is served from
+   a nested folder of a *different* repo's Pages site
+   (gamejamforoya.github.io/landing-page-preview/pr-preview/pr-N/). Without an
+   override the CNAME above forces "/", every root-absolute /styles and /img URL
+   resolves to that host's root, and the preview renders unstyled with no images.
+   See .github/workflows/pr-preview.yml. */
 const PATH_PREFIX =
-  IS_DEV || HAS_CUSTOM_DOMAIN ? "/" : "/landing-page/";
+  process.env.PATH_PREFIX || (IS_DEV || HAS_CUSTOM_DOMAIN ? "/" : "/landing-page/");
+
+// Preview builds are throwaway copies of the real site on a public host, so
+// they are marked noindex (see base.njk) to keep them out of gj.fo's search
+// results. Set by the preview workflow.
+const IS_PREVIEW = process.env.PREVIEW_BUILD === "1";
 
 module.exports = function (eleventyConfig) {
   // Rewrites root-relative URLs in output HTML to include PATH_PREFIX.
   eleventyConfig.addPlugin(HtmlBasePlugin);
+
+  // Lets base.njk add <meta name="robots" content="noindex"> on preview builds.
+  eleventyConfig.addGlobalData("isPreview", IS_PREVIEW);
   // Copy static assets straight through to the output, unprocessed.
   eleventyConfig.addPassthroughCopy({ "src/styles": "styles" });
   eleventyConfig.addPassthroughCopy({ "src/scripts": "scripts" });

@@ -1,0 +1,102 @@
+name: PR Preview
+
+# Builds every pull request and publishes it so the change can be *looked at*
+# before it is approved — the sponsor grid landing on main in a half-finished
+# state is exactly what this exists to prevent.
+#
+# Previews are served from a SEPARATE repo, GameJamForoya/landing-page-preview:
+#
+#   https://gamejamforoya.github.io/landing-page-preview/pr-preview/pr-<n>/
+#
+# Why a separate repo: rossjrw/pr-preview-action needs Pages set to "Deploy from
+# branch", but gj.fo deploys via the "GitHub Actions" source (deploy.yml). A repo
+# has only one Pages source, so hosting previews here would mean rewiring how
+# production ships. Pointing `deploy-repository` at its own repo keeps the live
+# site's deployment completely untouched.
+#
+# ONE-TIME SETUP — this workflow fails without it:
+#   A fine-grained PAT saved as the secret PREVIEW_DEPLOY_TOKEN on this repo,
+#   with access to BOTH repositories:
+#     · GameJamForoya/landing-page-preview → Contents: Read and write
+#           (push the built preview)
+#     · GameJamForoya/landing-page         → Pull requests: Read and write
+#           (leave the sticky comment with the link)
+#   The default GITHUB_TOKEN cannot be used: it has no access to the other repo.
+
+on:
+  pull_request:
+    # `closed` is not in the default set and is what triggers cleanup — without
+    # it every merged PR leaves its preview behind forever.
+    types: [opened, reopened, synchronize, closed]
+
+# One preview per PR. A new push supersedes an in-flight build, but never cancel
+# a cleanup half-done — that would strand a preview with no event left to remove it.
+concurrency:
+  group: pr-preview-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    # Forks get no secrets, so the deploy would fail confusingly. Skip them and
+    # leave the PR clean. (The action itself does not support forks yet either.)
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Fail early if the deploy token is missing
+        # Checked via env, not `if:` — the `secrets` context is not available in
+        # a step-level condition. Without this the run fails deep inside the
+        # deploy action with an opaque 404 on the other repo.
+        env:
+          TOKEN: ${{ secrets.PREVIEW_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::PREVIEW_DEPLOY_TOKEN is not set — see the setup notes at the top of .github/workflows/pr-preview.yml"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        # Skipped on close: nothing is built, the preview is only removed.
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        if: github.event.action != 'closed'
+        run: npm ci
+
+      - name: Build site
+        if: github.event.action != 'closed'
+        env:
+          # Must match the URL the preview is served from, or every /styles and
+          # /img link resolves to the preview host's root and the page renders
+          # unstyled. See the PATH_PREFIX note in .eleventy.js.
+          PATH_PREFIX: /landing-page-preview/pr-preview/pr-${{ github.event.number }}/
+          PREVIEW_BUILD: "1"
+        run: npm run build
+
+      - name: Drop the CNAME from the preview build
+        if: github.event.action != 'closed'
+        # src/public/CNAME claims gj.fo. It is harmless nested inside
+        # pr-preview/, which Pages never reads, but shipping a file that claims
+        # the production domain to another Pages host is not worth the risk.
+        run: rm -f _site/CNAME
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./_site/
+          deploy-repository: GameJamForoya/landing-page-preview
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          # Auto-detection would report this repo's Pages URL (gj.fo), which is
+          # not where the preview lives. No scheme, trailing slash — as documented.
+          pages-base-url: gamejamforoya.github.io/landing-page-preview/
+          token: ${{ secrets.PREVIEW_DEPLOY_TOKEN }}
