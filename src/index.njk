@@ -131,15 +131,23 @@ title: Heim
       Tiltakið er ókeypis fyri luttakararnar — tað kann bara eydnast við hjálp
       frá hesum stuðlum:
     </p>
+    {#- One centred row per sponsor tier, biggest contribution first. The
+        zero-height break item forces a flex wrap between tiers, so each row
+        centres independently without hardcoding how many sponsors are in it. -#}
     <ul class="sponsors__grid" role="list">
-      {%- for sponsor in site.sponsors %}
+      {%- for row in site.sponsors | byTier %}
+      {%- if not loop.first %}
+      <li class="sponsors__break" role="presentation"></li>
+      {%- endif %}
+      {%- for sponsor in row %}
       {%- if sponsor.logo %}
-      <li class="sponsors__item sponsors__item--logo">
+      <li class="sponsors__item sponsors__item--logo{{ " sponsors__item--main" if sponsor.tier == 1 }}">
         {% image sponsor.logo, sponsor.name, "(max-width: 600px) 40vw, 200px", "sponsors__logo" + (" sponsors__logo--boxed" if sponsor.boxed else "") %}
       </li>
       {%- else %}
       <li class="sponsors__item">{{ sponsor.name }}</li>
       {%- endif %}
+      {%- endfor %}
       {%- endfor %}
     </ul>
   </div>

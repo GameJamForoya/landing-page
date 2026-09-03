@@ -4,12 +4,25 @@
    real logo images when they are available.
    ============================================================ */
 
+/* Rows are centred so each tier sits symmetrically above the next — a row of
+   two reads as featured over a row of three. */
 .sponsors__grid {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-md);
   margin-top: var(--space-xl);
+}
+
+/* Zero-height full-width item: forces a flex line break between tiers, so
+   each tier centres as its own row no matter how many sponsors it holds.
+   Presentational only — it carries no content for assistive tech. */
+.sponsors__break {
+  flex-basis: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .sponsors__item {
@@ -48,9 +61,28 @@
   object-fit: contain;
 }
 
-/* A mark that ships with its own background tile reads heavier than a flat
-   wordmark at identical size, so it sits slightly smaller in the cell. */
+/* A mark that ships with its own background tile — or one that is roughly
+   square — reads heavier than a flat wordmark at identical size, so it sits
+   slightly smaller in the cell. */
 .sponsors__logo--boxed {
   max-height: 72%;
   border-radius: var(--radius-md);
+}
+
+/* ---- Høvuðsstuðul (main sponsor) --------------------------------------
+   Tier 1 gets a larger cell so the biggest contributor reads as the headline
+   rather than just sitting first. Everything else about the cell is shared,
+   so the logo still contains rather than stretches. */
+.sponsors__item--main {
+  min-width: 16rem;
+  height: 10rem;
+  padding: var(--space-md) var(--space-lg);
+}
+
+/* The `boxed` cap exists to stop a square mark dominating the flat wordmarks
+   sitting *beside* it at the same size. In the main-sponsor cell that is the
+   whole point, and the cap actively shrinks the headline sponsor below the
+   tier below it — so it is lifted here. */
+.sponsors__item--main .sponsors__logo--boxed {
+  max-height: 100%;
 }
