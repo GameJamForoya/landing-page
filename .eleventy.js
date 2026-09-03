@@ -49,6 +49,21 @@ module.exports = function (eleventyConfig) {
     "src/assets/images/space_ship.png": "img/space_ship.png",
   });
 
+  /* ---- Sponsor tiers ----------------------------------------------------
+     Groups site.sponsors into one array per `tier`, ascending, preserving the
+     order written in site.js within each tier. The template renders one
+     centred row per group, so a sponsor's contribution reads off the page
+     without any hardcoded row counts — add a sponsor with a tier and the
+     layout follows. Anything without a tier sorts to the bottom. */
+  eleventyConfig.addFilter("byTier", (sponsors = []) => {
+    const tiers = [...new Set(sponsors.map((s) => s.tier ?? Infinity))].sort(
+      (a, b) => a - b
+    );
+    return tiers.map((t) =>
+      sponsors.filter((s) => (s.tier ?? Infinity) === t)
+    );
+  });
+
   /* ---- Responsive images (build-time optimisation) ----------------------
      Usage in a template:
        {% image "src/assets/images/foo.png", "alt text", "40vw", "css-class" %}

@@ -150,35 +150,50 @@ module.exports = {
   // `logo` is a source path handed to the `image` shortcode, which bakes an
   // optimised WebP/SVG into /img/ at build time; a sponsor without one falls
   // back to a plain name chip. Set `boxed` when the artwork carries its own
-  // background tile — those scale down slightly so they don't optically
-  // outweigh the flat wordmarks. Sources live in Drive under "Sponsor Logos/".
+  // background tile, or when it is roughly square — those scale down slightly
+  // so they don't optically outweigh the flat wordmarks. Sources live in
+  // Drive under "Sponsor Logos/".
+  //
+  // `tier` drives the layout: the grid renders one centred row per tier, in
+  // ascending order, so contribution reads off the page. Tier 1 is the
+  // høvuðsstuðul (main sponsor) and gets a larger cell. Sponsors within a
+  // tier keep the order written here. Adding a sponsor is just a matter of
+  // giving it the right tier — no template or CSS change needed.
   sponsors: [
-    // Confirmed 20 July 2026 by Hans Blaasvær (hans@kthusid.fo) — kr. 5.000.
-    { name: "KT Húsið", logo: "src/assets/images/sponsors/kt-husid.png" },
-    // Confirmed 16 July 2026 by SMS (studul@sms.fo) — kr. 5.000 gift card.
-    // They sponsor under the Miklagarður brand, which is why that, not "SMS",
-    // is the name shown.
-    {
-      name: "Miklagarður",
-      logo: "src/assets/images/sponsors/miklagardur.svg",
-      boxed: true,
-    },
-    // Confirmed 25 August 2026 by Árni Arge (aa@formula.fo) — kr. 5.000.
-    // Source artwork was cropped to the wordmark: the Drive file carries a
-    // stray gold rule ~150px to its right, left over from a wider lockup.
-    { name: "Formula", logo: "src/assets/images/sponsors/formula.png" },
-    // Confirmed 25 August 2026 by Jana (Marketing@elektron.fo) — kr. 5.000.
-    { name: "Elektron", logo: "src/assets/images/sponsors/elektron.png" },
-    // Confirmed August 2026 via Olaf Sundstein Olsen — DKK 10.000, the
-    // largest of 2026. Agreed verbally rather than in writing; published on
-    // Jóhann's explicit call (see the Ice Innovation Sponsor Progress
-    // fragment in Usable). Near-square mark, so it is boxed to keep it from
-    // optically outweighing the flat wordmarks beside it.
+    // ---- Tier 1: høvuðsstuðul -------------------------------------------
+    // Confirmed August 2026 via Olaf Sundstein Olsen — DKK 10.000, double any
+    // other sponsor, which is why they carry the main-sponsor slot. Agreed
+    // verbally rather than in writing; published on Jóhann's explicit call
+    // (see the Ice Innovation Sponsor Progress fragment in Usable).
+    // Near-square mark, so it is boxed.
     {
       name: "Ice Innovation",
       logo: "src/assets/images/sponsors/ice-innovation.png",
       boxed: true,
+      tier: 1,
     },
+    // ---- Tier 2: everyone else, ordered by contribution ------------------
+    // Miklagarður leads the row: their 5.000 kr came as a gift card plus a
+    // pile of Bónus merch handed over on collection, so they rank ahead of
+    // the flat-cash sponsors. Give them their own tier if you would rather
+    // see them on a separate line — the layout follows the data.
+    //
+    // Confirmed 16 July 2026 by SMS (studul@sms.fo). They sponsor under the
+    // Miklagarður brand, which is why that, not "SMS", is the name shown.
+    {
+      name: "Miklagarður",
+      logo: "src/assets/images/sponsors/miklagardur.svg",
+      boxed: true,
+      tier: 2,
+    },
+    // Confirmed 20 July 2026 by Hans Blaasvær (hans@kthusid.fo) — kr. 5.000.
+    { name: "KT Húsið", logo: "src/assets/images/sponsors/kt-husid.png", tier: 2 },
+    // Confirmed 25 August 2026 by Árni Arge (aa@formula.fo) — kr. 5.000.
+    // Source artwork was cropped to the wordmark: the Drive file carries a
+    // stray gold rule ~150px to its right, left over from a wider lockup.
+    { name: "Formula", logo: "src/assets/images/sponsors/formula.png", tier: 2 },
+    // Confirmed 25 August 2026 by Jana (Marketing@elektron.fo) — kr. 5.000.
+    { name: "Elektron", logo: "src/assets/images/sponsors/elektron.png", tier: 2 },
   ],
 
   // Social / external links (from the current gj.fo footer).

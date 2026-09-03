@@ -131,15 +131,27 @@ title: Heim
       Tiltakið er ókeypis fyri luttakararnar — tað kann bara eydnast við hjálp
       frá hesum stuðlum:
     </p>
+    {#- One centred row per sponsor tier, biggest contribution first. The
+        zero-height break item forces a flex wrap between tiers, so each row
+        centres independently without hardcoding how many sponsors are in it. -#}
     <ul class="sponsors__grid" role="list">
-      {%- for sponsor in site.sponsors %}
+      {%- for row in site.sponsors | byTier %}
+      {%- if not loop.first %}
+      <li class="sponsors__break" role="presentation"></li>
+      {%- endif %}
+      {%- for sponsor in row %}
       {%- if sponsor.logo %}
-      <li class="sponsors__item sponsors__item--logo">
-        {% image sponsor.logo, sponsor.name, "(max-width: 600px) 40vw, 200px", "sponsors__logo" + (" sponsors__logo--boxed" if sponsor.boxed else "") %}
+      <li class="sponsors__item sponsors__item--logo{{ " sponsors__item--main" if sponsor.tier == 1 }}">
+        {#- Logos never render wider than the ~256px main cell, so cap the
+            variants at 640 (covers 2x on the widest cell). Without this they
+            inherit the photo widths and bake 1280/1920/2048 copies of art that
+            is displayed at 200px — the waste the shortcode's comment warns of. -#}
+        {% image sponsor.logo, sponsor.name, "(max-width: 600px) 40vw, 200px", "sponsors__logo" + (" sponsors__logo--boxed" if sponsor.boxed else ""), [320, 480, 640] %}
       </li>
       {%- else %}
       <li class="sponsors__item">{{ sponsor.name }}</li>
       {%- endif %}
+      {%- endfor %}
       {%- endfor %}
     </ul>
   </div>
