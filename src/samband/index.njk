@@ -63,11 +63,32 @@ description: Fá samband við GameJam Føroya — teldupostur, telefon og adress
   <div class="container">
     <div class="panel">
       <h2 class="section__title" id="org-title">Felagsskapurin</h2>
-      <p class="section__lead">
-        {{ site.legalName }} · {{ site.orgType }}<br>
-        V-tal {{ site.vtal }}<br>
-        {{ site.address }}
-      </p>
+      {#- Label-over-value, the same pairing the "Skriva ella ring" tiles above
+          use — but without their border and hover, since none of these are
+          links and they should not invite a tap. -#}
+      <dl class="contact__org">
+        <div class="contact__org-item">
+          <dt class="contact__label">Navn</dt>
+          <dd class="contact__org-value">{{ site.legalName }}</dd>
+        </div>
+        <div class="contact__org-item">
+          <dt class="contact__label">Slag</dt>
+          <dd class="contact__org-value">{{ site.orgType }}</dd>
+        </div>
+        <div class="contact__org-item">
+          <dt class="contact__label">V-tal</dt>
+          <dd class="contact__org-value">{{ site.vtal }}</dd>
+        </div>
+        <div class="contact__org-item">
+          <dt class="contact__label">Adressa</dt>
+          <dd class="contact__org-value">{{ site.address }}</dd>
+        </div>
+      </dl>
+      {#- The English "official website of…" sentence. Deliberately quiet, and
+          ruled off — it is not for our Faroese visitors but for anyone
+          verifying that gj.fo belongs to the registered association (Google
+          for Nonprofits). It used to sit in the site-wide footer. -#}
+      <p class="contact__identity">{{ site.identityEn }}</p>
     </div>
   </div>
 </section>

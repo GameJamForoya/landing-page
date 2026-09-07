@@ -95,7 +95,7 @@ landing-page/
     │   └── partials/
     │       ├── header.njk     # sticky banner
     │       ├── nav.njk        # primary nav (driven by site.nav)
-    │       └── footer.njk     # footer incl. legal-identity line
+    │       └── footer.njk     # footer: mission, contact, social
     ├── index.njk             # homepage (extends base.njk)
     ├── styles/
     │   ├── main.css          # design tokens, reset, utilities, buttons
@@ -130,8 +130,13 @@ landing-page/
   email, address or nav in templates — reference `site.*`. Keep `site.js` in sync
   with the Usable Organization Profile fragment.
 - **Faroese (`fo`) is the site language.** UI copy is Faroese.
-- **Keep the legal-identity line in the footer** (org name + V-tal) — it's needed
-  for the gj.fo domain ↔ org verification (Google Workspace for Nonprofits).
+- **Keep the legal-identity block on `/samband/`** — the "Felagsskapurin" panel
+  (legal name, org type, V-tal, address) plus the English "official website of…"
+  sentence. Google for Nonprofits requires the V-tal, a physical address, a
+  clear mission and working social links to be openly visible **on the site**;
+  the footer is not required specifically. The mission and the social links live
+  in the footer, the rest on `/samband/` — between them the checklist is met, so
+  do not remove either half. (Moved out of the footer Sep 2026, Hanna's call.)
 - **Optimise images** (WebP/SVG, `loading="lazy"`, descriptive `alt`).
 
 ## 7. Adding a page
