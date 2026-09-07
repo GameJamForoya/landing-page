@@ -51,6 +51,16 @@
   overflow-wrap: anywhere;
 }
 
+/* The English identity sentence under the org details. Small and muted —
+   present and readable, but never competing with the Faroese copy above it. */
+.contact__identity {
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
 @media (max-width: 720px) {
   .contact__methods { grid-template-columns: 1fr; gap: var(--space-md); }
 }

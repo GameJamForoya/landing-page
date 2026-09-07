@@ -1,8 +1,14 @@
 {#-
-  Site footer. The bottom bar carries the legal-identity block (org name,
-  type, V-tal, address + the English identity sentence) required for the
-  gj.fo domain ↔ org verification — see the Google Workspace for Nonprofits
-  progress fragment in the GameJam Foroyar Usable workspace. Keep it here.
+  Site footer. Brand + mission on the left, contact on the right; underneath a
+  separator, the copyright sits bottom-left and the social links bottom-right.
+
+  The legal-identity block (legal name, org type, V-tal, address + the English
+  "official website" sentence) is NOT here — it lives in the "Felagsskapurin"
+  panel on /samband/. Google for Nonprofits requires the org's V-tal, a physical
+  address, a clear mission and working social links to be openly visible ON THE
+  SITE; it does not require them in the footer specifically. The mission and the
+  social links stay below, so between this footer and /samband/ the whole
+  checklist is still met. Do not drop the /samband/ panel.
 
   No page-links column: the nav is sticky and always visible.
 -#}
@@ -20,6 +26,13 @@
         <li><a href="mailto:{{ site.email }}" class="footer__link">{{ site.email }}</a></li>
         <li><a href="tel:{{ site.phone | replace(' ', '') }}" class="footer__link">{{ site.phone }}</a></li>
       </ul>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p class="footer__copyright">&copy; {% year %} {{ site.legalName }}. Allur rættur tilskilaður.</p>
 
       <ul class="footer__social" role="list">
         {%- for channel in site.social %}
@@ -29,17 +42,6 @@
         </li>
         {%- endfor %}
       </ul>
-    </div>
-
-  </div>
-
-  <div class="footer__bottom">
-    <div class="container">
-      <p class="footer__legal">
-        {{ site.legalName }} · {{ site.orgType }} · V-tal {{ site.vtal }} · {{ site.address }}
-      </p>
-      <p class="footer__identity">{{ site.identityEn }}</p>
-      <p class="footer__copyright">&copy; {% year %} {{ site.legalName }}.<br>Allur rættur tilskilaður.</p>
     </div>
   </div>
 </footer>

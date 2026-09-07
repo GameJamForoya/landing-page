@@ -2,7 +2,7 @@
    Component: footer (BEM)
    Teal slab that closes the brand frame. Two blocks pushed to the
    outer edges — brand + mission on the left, contact on the right —
-   then a centred legal-identity bar underneath.
+   then a bottom bar underneath: copyright left, social links right.
    ============================================================ */
 
 .footer {
@@ -61,7 +61,6 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   gap: var(--space-xs);
 }
 
@@ -80,39 +79,34 @@
   color: #fff;
 }
 
-/* --- Legal identity bar: three columns across the full width --- */
+/* --- Bottom bar: copyright left, social links right --- */
 .footer__bottom {
   border-top: 1px solid var(--on-teal-border);
   padding-block: var(--space-lg);
 }
 
 .footer__bottom .container {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) minmax(0, 0.7fr);
-  gap: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
+  gap: var(--space-md) var(--space-xl);
 }
 
-.footer__legal,
-.footer__identity,
 .footer__copyright {
   font-size: var(--text-sm);
   color: var(--on-teal-muted);
   line-height: 1.6;
 }
 
-.footer__legal { color: var(--on-teal); }
-.footer__identity { text-align: center; }
-.footer__copyright { text-align: right; }
-
+/* Stack the two halves once they can no longer sit side by side, so the
+   copyright never ends up orphaned on a line of its own mid-row. */
 @media (max-width: 860px) {
   .footer__bottom .container {
-    grid-template-columns: 1fr;
-    gap: var(--space-sm);
-    text-align: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
   }
-  .footer__identity,
-  .footer__copyright { text-align: center; }
 }
 
 @media (max-width: 720px) {
@@ -121,5 +115,4 @@
     gap: var(--space-xl);
   }
   .footer__contact { text-align: left; }
-  .footer__social { justify-content: flex-start; }
 }
