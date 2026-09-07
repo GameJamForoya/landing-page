@@ -1,6 +1,7 @@
 /* ============================================================
    Component: disciplines (BEM)
-   The "Royn teg innan" grid — the nine ways to take part.
+   The "Royn teg innan" grid — the ten ways to take part. Shared by the
+   homepage and /um-okkum/ ("Hvør kann vera við?").
    White cards on the light body, teal labels, red marker.
    ============================================================ */
 
@@ -35,7 +36,7 @@
 
 /* Little marker before each label. The colour is per discipline — see the
    --dot-* tokens in main.css — so the row reads as a small legend of the
-   crafts rather than nine identical dots. Brand red is the fallback for any
+   crafts rather than ten identical dots. Brand red is the fallback for any
    discipline added without a matching token. */
 .disciplines__item::before {
   content: "";
@@ -55,3 +56,4 @@
 .disciplines__item--reglasmid::before      { background: var(--dot-reglasmid); }
 .disciplines__item--handverk::before       { background: var(--dot-handverk); }
 .disciplines__item--sogulist::before       { background: var(--dot-sogulist); }
+.disciplines__item--althitt::before        { background: var(--dot-althitt); }

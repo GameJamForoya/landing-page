@@ -60,7 +60,8 @@ module.exports = {
     title: "Samandráttur av GameJam Føroya 2025",
   },
 
-  // "Royn teg innan" — the nine ways to take part (from the banner).
+  // "Royn teg innan" — the ten ways to take part (nine from the banner, plus
+  // the catch-all). Rendered on both the homepage and /um-okkum/.
   // `slug` picks the marker colour: each one has a --dot-<slug> token in
   // styles/main.css. Add a discipline here and add its token there too.
   disciplines: [
@@ -73,6 +74,9 @@ module.exports = {
     { name: "Reglasmíð", slug: "reglasmid" },
     { name: "Handverk", slug: "handverk" },
     { name: "Søgulist", slug: "sogulist" },
+    // Deliberately last and deliberately not a craft: the list should not read
+    // as exhaustive, and at five across it also completes the second row.
+    { name: "Og alt hitt", slug: "althitt" },
   ],
 
   // Next event. TODO(Hanna): confirm — Usable source-of-truth says 4 Sep 2026 at
