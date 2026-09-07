@@ -27,16 +27,16 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
       <p><span class="badge">{{ site.event.date }}</span></p>
       <h3 class="panel__title">{{ site.event.name }}</h3>
       <p class="section__lead">{{ site.event.venue }} · {{ site.event.note }}</p>
+      {#- Sign-up button only while the form is open — with it closed the panel
+          ends on the venue line rather than on an empty action row. -#}
+      {%- if site.event.signupUrl %}
       <p class="panel__actions">
-        {%- if site.event.signupUrl %}
         <a href="{{ site.event.signupUrl }}"
            class="button button--primary"
            target="_blank"
            rel="noopener">Melda teg til</a>
-        {%- else %}
-        <a href="/samband/" class="button button--primary">Ver við</a>
-        {%- endif %}
       </p>
+      {%- endif %}
     </div>
   </div>
 </section>
