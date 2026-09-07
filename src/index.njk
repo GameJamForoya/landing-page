@@ -23,18 +23,17 @@ title: Heim
         Vit fremja telduspælmentan og spælmenning í Føroyum — við game jams
         fyri øll, ið eru áhugað í spølum og spælmenning.
       </p>
+      {#- One call to action: sign up for this year's jam. When sign-ups are
+          closed the whole row goes with it, so the hero runs straight from the
+          intro to the date rather than holding an empty band. -#}
+      {%- if site.event.signupUrl %}
       <div class="hero__actions">
-        {#- One call to action: sign up for this year's jam. Falls back to the
-            events page if the sign-up form link is ever taken down. -#}
-        {%- if site.event.signupUrl %}
         <a href="{{ site.event.signupUrl }}"
            class="button button--primary"
            target="_blank"
            rel="noopener">Melda til {{ site.event.name }}</a>
-        {%- else %}
-        <a href="/tiltok/" class="button button--primary">Sí komandi tiltak</a>
-        {%- endif %}
       </div>
+      {%- endif %}
       {#- When and where, right under the call to action — the front page has
           no separate events panel, so this is where a visitor finds it. -#}
       <p class="hero__event">

@@ -82,10 +82,11 @@ module.exports = {
     date: "Vikuskiftið 11.–13. september 2026",
     venue: "Skúlin á Fløtum, 100 Tórshavn",
     note: "48 tímar · telduspøl og borðspøl · 100% ókeypis",
-    // Google Form for this event. Clear it when sign-ups close — the CTA then
-    // falls back to the contact page.
-    signupUrl:
-      "https://docs.google.com/forms/d/e/1FAIpQLSeEnwnvlHlyZ4iM-pn5g5F91TSqQUN3P-gFUYn3TRAUXEpdtg/viewform",
+    // Google Form for this event. Set it to re-open sign-ups — the call to
+    // action then returns to the hero and the events panel on its own. Empty
+    // means sign-ups are closed and neither spot renders a button.
+    // Closed 7 Sep 2026: the deadline passed; the jam itself is still to come.
+    signupUrl: "",
   },
 
   // Logo per event series. `series` on each event below points at one of
