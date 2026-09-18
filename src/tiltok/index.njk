@@ -20,6 +20,9 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
   </div>
 </section>
 
+{#- Only while an event is announced — with none, the page opens straight
+    onto the archive rather than on an empty heading. -#}
+{%- if site.event %}
 <section class="section" id="next" aria-labelledby="next-title">
   <div class="container">
     <h2 class="section__title" id="next-title">Komandi Tiltøk</h2>
@@ -40,6 +43,7 @@ description: Yvirlit yvir øll tiltøkini hjá GameJam Føroya — og leinkjur t
     </div>
   </div>
 </section>
+{%- endif %}
 
 <section class="section" id="past" aria-labelledby="past-title">
   <div class="container">

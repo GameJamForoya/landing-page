@@ -26,7 +26,7 @@ title: Heim
       {#- One call to action: sign up for this year's jam. When sign-ups are
           closed the whole row goes with it, so the hero ends on the intro
           rather than holding an empty band. -#}
-      {%- if site.event.signupUrl %}
+      {%- if site.event and site.event.signupUrl %}
       <div class="hero__actions">
         <a href="{{ site.event.signupUrl }}"
            class="button button--primary"
