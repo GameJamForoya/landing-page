@@ -115,7 +115,7 @@ module.exports = {
   // "named for the following season" theory. Corrected by Hanna from the
   // actual records; the ordering was right all along.
   pastEvents: [
-    { name: "GameJam Føroya 2026", series: "gjf", date: "11.–13. september 2026", venue: "Skúlin á Fløtum, Tórshavn",
+    { name: "GameJam Føroya 2026", series: "gjf", date: "11. september 2026", venue: "Skúlin á Fløtum, Tórshavn",
       games: "https://itch.io/jam/gamejam-froya-2026/entries" },
     { name: "Tonik GameJam 2026", series: "tonik", date: "1. mai 2026", venue: "Hugskotið, Tórshavn",
       games: "https://itch.io/jam/tonik-gamejam-2026/entries" },
