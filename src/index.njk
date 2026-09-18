@@ -24,9 +24,9 @@ title: Heim
         fyri øll, ið eru áhugað í spølum og spælmenning.
       </p>
       {#- One call to action: sign up for this year's jam. When sign-ups are
-          closed the whole row goes with it, so the hero runs straight from the
-          intro to the date rather than holding an empty band. -#}
-      {%- if site.event.signupUrl %}
+          closed the whole row goes with it, so the hero ends on the intro
+          rather than holding an empty band. -#}
+      {%- if site.event and site.event.signupUrl %}
       <div class="hero__actions">
         <a href="{{ site.event.signupUrl }}"
            class="button button--primary"
@@ -34,11 +34,6 @@ title: Heim
            rel="noopener">Melda til {{ site.event.name }}</a>
       </div>
       {%- endif %}
-      {#- When and where, right under the call to action — the front page has
-          no separate events panel, so this is where a visitor finds it. -#}
-      <p class="hero__event">
-        {{ site.event.date }} · {{ site.event.venue }}
-      </p>
     </div>
 
     {#- Logo art fills this once dropped at src/assets/images/gamejam-logo.png -#}

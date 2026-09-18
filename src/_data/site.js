@@ -79,19 +79,19 @@ module.exports = {
     { name: "Og alt hitt", slug: "althitt" },
   ],
 
-  // Next event. TODO(Hanna): confirm — Usable source-of-truth says 4 Sep 2026 at
-  // Skúlin á Fløtum, but the current live gj.fo shows a different (May) event.
-  event: {
-    name: "GameJam Føroya 2026",
-    date: "Vikuskiftið 11.–13. september 2026",
-    venue: "Skúlin á Fløtum, 100 Tórshavn",
-    note: "48 tímar · telduspøl og borðspøl · 100% ókeypis",
-    // Google Form for this event. Set it to re-open sign-ups — the call to
-    // action then returns to the hero and the events panel on its own. Empty
-    // means sign-ups are closed and neither spot renders a button.
-    // Closed 7 Sep 2026: the deadline passed; the jam itself is still to come.
-    signupUrl: "",
-  },
+  // Next event, or null when none is announced. While null, the "Komandi
+  // Tiltøk" section on /tiltok/ is left out entirely and the hero shows no
+  // sign-up button. To announce one, restore an object of this shape:
+  //   {
+  //     name: "GameJam Føroya 2027",
+  //     date: "Vikuskiftið …",
+  //     venue: "Skúlin á Fløtum, 100 Tórshavn",
+  //     note: "48 tímar · telduspøl og borðspøl · 100% ókeypis",
+  //     // Google Form; empty means sign-ups are closed and no button renders.
+  //     signupUrl: "",
+  //   }
+  // Cleared 18 Sep 2026: GameJam Føroya 2026 is over and now in pastEvents.
+  event: null,
 
   // Logo per event series. `series` on each event below points at one of
   // these, so a logo path is written once rather than repeated per jam.
@@ -115,6 +115,8 @@ module.exports = {
   // "named for the following season" theory. Corrected by Hanna from the
   // actual records; the ordering was right all along.
   pastEvents: [
+    { name: "GameJam Føroya 2026", series: "gjf", date: "11. september 2026", venue: "Skúlin á Fløtum, Tórshavn",
+      games: "https://itch.io/jam/gamejam-froya-2026/entries" },
     { name: "Tonik GameJam 2026", series: "tonik", date: "1. mai 2026", venue: "Hugskotið, Tórshavn",
       games: "https://itch.io/jam/tonik-gamejam-2026/entries" },
     { name: "Global GameJam Føroya 2026", series: "ggj", date: "30. januar 2026", venue: "Hugskotið, Tórshavn",
