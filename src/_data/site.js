@@ -56,8 +56,8 @@ module.exports = {
   // Recap video (facade embed — only loads YouTube on click). Poster is
   // self-hosted at src/assets/images/event-recap-poster.jpg.
   video: {
-    id: "J-FX534h40c",
-    title: "Samandráttur av GameJam Føroya 2025",
+    id: "dmSy2Y3Yfno",
+    title: "Samandráttur av GameJam Føroya 2026",
   },
 
   // "Royn teg innan" — the ten ways to take part (nine from the banner, plus
