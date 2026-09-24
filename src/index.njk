@@ -95,7 +95,7 @@ title: Heim
            href="https://www.youtube.com/watch?v={{ site.video.id }}"
            data-video-id="{{ site.video.id }}"
            aria-label="Spæl video: {{ site.video.title }}">
-          {% image "src/assets/images/event-recap-poster.jpg", "", "(max-width: 900px) 100vw, 900px", "video__poster" %}
+          {% image site.video.poster, "", "(max-width: 900px) 100vw, 900px", "video__poster" %}
           <span class="video__play"></span>
         </a>
       </div>
