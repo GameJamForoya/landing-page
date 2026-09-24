@@ -53,11 +53,12 @@ module.exports = {
     { text: "Samband", url: "/samband/" },
   ],
 
-  // Recap video (facade embed — only loads YouTube on click). Poster is
-  // self-hosted at src/assets/images/event-recap-poster.jpg.
+  // Recap video (facade embed — only loads YouTube on click). The poster is
+  // self-hosted; swap `poster` alongside `id` when the recap changes.
   video: {
     id: "dmSy2Y3Yfno",
     title: "Samandráttur av GameJam Føroya 2026",
+    poster: "src/assets/images/event-recap-poster-2026.jpg",
   },
 
   // "Royn teg innan" — the ten ways to take part (nine from the banner, plus
