@@ -14,6 +14,7 @@
   --review-bg: #10312c;            /* dark teal chrome, distinct from content */
   --review-on-bg: #f4f4f4;
   --review-accent: #ffd166;        /* highlighter yellow */
+  --review-accent-strong: #ffdd88; /* highlighter, focused mark */
   --review-danger: var(--brand-red);
   --review-radius: 10px;
   --review-shadow: 0 10px 30px rgba(2, 43, 38, 0.35);
@@ -103,7 +104,7 @@ body.review-element-mode .footer {
   cursor: pointer;
   border: 0;
   border-radius: 6px;
-  background: rgba(244, 244, 244, 0.12);
+  background: color-mix(in srgb, var(--brand-white) 12%, transparent);
   color: inherit;
   padding: 0.45em 0.8em;
   transition: background-color 0.15s ease, transform 0.12s ease;
@@ -114,7 +115,7 @@ body.review-element-mode .footer {
 }
 
 .review-ui button:hover {
-  background: rgba(244, 244, 244, 0.24);
+  background: color-mix(in srgb, var(--brand-white) 24%, transparent);
 }
 
 .review-ui button:focus-visible {
@@ -180,7 +181,7 @@ body.review-element-mode .footer {
 }
 
 .review-bar__exit {
-  background: rgba(202, 78, 58, 0.35);
+  background: color-mix(in srgb, var(--brand-red) 35%, transparent);
 }
 
 .review-bar__exit:hover {
@@ -203,7 +204,7 @@ body.review-element-mode .footer {
   min-width: 13rem;
   padding: 0.4rem;
   background: var(--review-bg);
-  border: 1px solid rgba(244, 244, 244, 0.22);
+  border: 1px solid color-mix(in srgb, var(--brand-white) 22%, transparent);
   border-radius: 8px;
   box-shadow: var(--review-shadow);
   animation: review-rise 0.18s ease-out;
@@ -255,7 +256,7 @@ body.review-element-mode .footer {
   margin: 0 0 0.75rem;
   padding: 0.5rem 0.6rem;
   border-left: 3px solid var(--review-accent);
-  background: rgba(244, 244, 244, 0.08);
+  background: color-mix(in srgb, var(--brand-white) 8%, transparent);
   border-radius: 4px;
   max-height: 6.5em;
   overflow: auto;
@@ -307,7 +308,7 @@ body.review-element-mode .footer {
 }
 
 .review-form__save:hover {
-  background: #ffdd88;
+  background: var(--review-accent-strong);
 }
 
 /* ---- Notes panel ------------------------------------------ */
@@ -352,7 +353,7 @@ body.review-element-mode .footer {
   align-items: flex-start;
   gap: 0.5rem;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(244, 244, 244, 0.15);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-white) 15%, transparent);
 }
 
 .review-panel__body {
@@ -373,7 +374,7 @@ body.review-element-mode .footer {
 .review-panel__delete {
   flex: none;
   padding: 0.2em 0.55em;
-  background: rgba(202, 78, 58, 0.35);
+  background: color-mix(in srgb, var(--brand-red) 35%, transparent);
 }
 
 .review-panel__delete:hover {
@@ -414,7 +415,9 @@ body.review-element-mode .footer {
   .review-ui,
   .review-ui *,
   .review-mark {
+    /* stylelint-disable declaration-no-important -- reduced motion must override the tool's own entry animations */
     animation: none !important;
     transition: none !important;
+    /* stylelint-enable declaration-no-important */
   }
 }

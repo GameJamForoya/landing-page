@@ -88,6 +88,13 @@
   --on-teal-muted: rgba(244, 244, 244, 0.82);
   --on-teal-border: rgba(244, 244, 244, 0.30);
 
+  /* --- Pure white / shadow ink ------------------------------
+     #fff text and borders on teal, red and photo surfaces (a touch
+     brighter than --brand-white), and the base for black shadows.
+     Tints are derived with color-mix(…, transparent), never raw rgba(). */
+  --on-dark: #ffffff;
+  --color-shadow: #000000;
+
   /* --- Typography ---------------------------------------- */
   --font-sans: "Alata", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-heading: var(--font-sans);
@@ -162,6 +169,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* stylelint-disable-next-line declaration-no-important -- the reduced-motion reset must beat every component's own timing */
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
@@ -199,7 +207,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   left: var(--space-md);
   top: -100%;
   background: var(--color-cta);
-  color: #fff;
+  color: var(--on-dark);
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   z-index: 100;
@@ -228,11 +236,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
     background var(--transition), border-color var(--transition), color var(--transition);
 }
 /* Primary = the red spark */
-.button--primary { background: var(--color-cta); color: #fff; box-shadow: var(--shadow-md); }
-.button--primary:hover { background: var(--color-cta-dark); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.button--primary { background: var(--color-cta); color: var(--on-dark); box-shadow: var(--shadow-md); }
+.button--primary:hover { background: var(--color-cta-dark); color: var(--on-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 
 /* Secondary = teal outline on light backgrounds */
 .button--secondary { background: transparent; color: var(--brand-teal-deep); border-color: var(--brand-teal); }
 /* Deep teal, not the lighter --brand-teal: white on #039685 is only 3.68:1,
    under the 4.5:1 AA floor for body-sized text. #026b5f clears it. */
-.button--secondary:hover { background: var(--brand-teal-deep); color: #fff; border-color: var(--brand-teal-deep); }
+.button--secondary:hover { background: var(--brand-teal-deep); color: var(--on-dark); border-color: var(--brand-teal-deep); }

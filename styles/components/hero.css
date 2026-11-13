@@ -37,7 +37,7 @@
   font-size: var(--text-4xl);
   text-transform: uppercase;
   line-height: 1.02;
-  color: #fff;
+  color: var(--on-dark);
   /* Shrink-wrap to the widest line ("Menn eitt") so "Spæl" can match it exactly */
   width: fit-content;
 }
@@ -72,8 +72,8 @@
   gap: var(--space-md);
 }
 /* On the teal hero, the secondary button switches to a light outline */
-.hero .button--secondary { color: #fff; border-color: rgba(244, 244, 244, 0.6); }
-.hero .button--secondary:hover { background: rgba(244, 244, 244, 0.14); border-color: #fff; color: #fff; }
+.hero .button--secondary { color: var(--on-dark); border-color: color-mix(in srgb, var(--brand-white) 60%, transparent); }
+.hero .button--secondary:hover { background: color-mix(in srgb, var(--brand-white) 14%, transparent); border-color: var(--on-dark); color: var(--on-dark); }
 
 /* --- Logo / mascot slot -------------------------------------
    Holds the GameJam logo art. Until the file is wired in, a
@@ -87,7 +87,7 @@
   text-align: center;
   padding: var(--space-xl);
   color: var(--on-teal-muted);
-  background: rgba(244, 244, 244, 0.08);
+  background: color-mix(in srgb, var(--brand-white) 8%, transparent);
   border: 2px dashed var(--on-teal-border);
 }
 .hero__mascot img { width: 100%; height: auto; }         /* logo art fills the slot */

@@ -15,7 +15,7 @@
 .panel--highlight {
   border-color: color-mix(in srgb, var(--brand-red) 45%, var(--color-border));
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--brand-red) 8%, #fff), var(--color-surface));
+    linear-gradient(180deg, color-mix(in srgb, var(--brand-red) 8%, var(--color-surface)), var(--color-surface));
 }
 
 /* Small red badge, e.g. an event date pill */
@@ -26,7 +26,7 @@
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-full);
   background: var(--brand-red-strong);
-  color: #fff;
+  color: var(--on-dark);
   font-size: var(--text-sm);
   /* Body line-height is set for prose; a short uppercase label wants tighter. */
   line-height: 1.4;
