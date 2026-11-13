@@ -1,0 +1,54 @@
+/* ============================================================
+   Component: panel (BEM)
+   White card that lifts section content off the light body.
+   ============================================================ */
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-md);
+}
+
+/* Event highlight — a warm red-tinted card */
+.panel--highlight {
+  border-color: color-mix(in srgb, var(--brand-red) 45%, var(--color-border));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--brand-red) 8%, #fff), var(--color-surface));
+}
+
+/* Small red badge, e.g. an event date pill */
+.badge {
+  display: inline-block;
+  /* Enough air that the text still breathes when a long date wraps to two
+     lines — at 4px it sat squeezed between the pill's rounded caps. */
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  background: var(--brand-red-strong);
+  color: #fff;
+  font-size: var(--text-sm);
+  /* Body line-height is set for prose; a short uppercase label wants tighter. */
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* Even out the lines rather than stranding a lone "2026". `pretty` rather
+     than `balance`: balance breaks inside the date range ("11.–" / "13."). */
+  text-wrap: pretty;
+}
+
+.panel__title {
+  margin-block: var(--space-md) var(--space-sm);
+  font-size: var(--text-2xl);
+}
+
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+@media (max-width: 720px) {
+  .panel { padding: var(--space-xl); }
+}
