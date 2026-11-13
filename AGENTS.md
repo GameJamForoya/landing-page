@@ -59,7 +59,14 @@ Other scripts:
 ```bash
 npm run build        # production build → _site/
 npm run clean        # remove _site/
+npm run lint         # Stylelint (CSS) + html-validate (built pages)
+npm run check        # clean build + lint + standards checks (§9)
+npm run audit:fast   # accessibility, page weight, SEO, links, no-JS (§9)
+npm run audit        # the same plus Lighthouse; report in _audit/report.md
 ```
+
+`check` and `audit` drive a locally installed Google Chrome (nothing is
+downloaded). Both run automatically on every PR — see §9.
 
 To preview the exact output CI publishes, run `npm run build` and serve `_site/`
 with any static server (e.g. `npx http-server _site`).
@@ -102,10 +109,19 @@ landing-page/
 ├── .nvmrc                    # Node version (22)
 ├── .github/workflows/
 │   ├── deploy.yml            # build + push to gh-pages (push to main)
-│   └── pr-preview.yml        # live preview per PR at /pr-preview/pr-<n>/
+│   ├── pr-preview.yml        # live preview per PR at /pr-preview/pr-<n>/
+│   └── quality.yml           # check + audit on every PR, report as a comment
+├── .claude/skills/
+│   ├── review-standards/     # code-review skill + check.sh (§9)
+│   └── site-audit/           # a11y / speed / SEO audit skill (§9)
+├── stylelint.config.mjs      # CSS rules: BEM, colour tokens, no !important/@import/IDs
+├── tools/stylelint/          # the gjfo/no-raw-colour rule
+├── .htmlvalidate.mjs         # HTML rules for the built pages
+├── tools/audit/              # npm run audit — script + thresholds (config.mjs)
 └── src/                      # ← all site source lives here
     ├── _data/
-    │   └── site.js           # global data: org facts, nav, SEO defaults
+    │   ├── site.js           # global data: org facts, nav, SEO defaults, share image
+    │   └── structuredData.js # homepage JSON-LD (NGO), built from site.js
     ├── _includes/
     │   ├── layouts/
     │   │   └── base.njk       # HTML shell: <head>, header, footer, scripts
@@ -114,6 +130,7 @@ landing-page/
     │       ├── nav.njk        # primary nav (driven by site.nav)
     │       └── footer.njk     # footer: mission, contact, social
     ├── index.njk             # homepage (extends base.njk)
+    ├── sitemap.njk           # → /sitemap.xml, every page (robots.txt points here)
     ├── styles/
     │   ├── main.css          # design tokens, reset, utilities, buttons
     │   └── components/       # one BEM component per file (nav, hero, footer)
@@ -180,3 +197,33 @@ Add it to the menu by extending the `nav` array in `src/_data/site.js`.
 here are a deliberately neutral starting point (`TODO(Hanna)` markers flag the
 spots to fill in). When changing look-and-feel, prefer editing design tokens in
 `main.css` so changes cascade consistently.
+
+**Open design decision (Hanna): the teal frame's contrast.** Light text on the
+header/footer brand teal `#039685` tops out at 3.68:1 (white) — under the
+WCAG AA 4.5:1 minimum, so the footer text fails on every page (the header bar
+too, though axe can't measure it there). Options measured Nov 2026:
+`--brand-teal-deep` `#026b5f` (white 6.42:1, muted 5.20:1) or an in-between
+`#02786d` (white 5.37:1, `#f4f4f4` 4.88:1). Until decided it is listed in
+`tools/audit/config.mjs` `axe.knownIssues`, so it shows as a WARN on every PR
+instead of failing it. Remove that entry in the PR that fixes it.
+
+## 9. Reviewing changes and quality checks
+
+Two skills keep the work on standard. Claude Code picks them up
+automatically; other agents should read the SKILL.md and follow it.
+
+- **review-standards** —
+  [`.claude/skills/review-standards/SKILL.md`](.claude/skills/review-standards/SKILL.md):
+  reviews the code against the written standard. Runs `npm run check`, then
+  walks the rules by hand.
+- **site-audit** —
+  [`.claude/skills/site-audit/SKILL.md`](.claude/skills/site-audit/SKILL.md):
+  audits the built site — accessibility (axe, WCAG 2.1 AA), page weight,
+  SEO, broken links, no-JS, Lighthouse — and explains how to fix each
+  finding. Runs `npm run audit`.
+
+**On every PR**, `.github/workflows/quality.yml` runs `npm run check` and
+`npm run audit`, fails the PR on any FAIL, and posts the audit report as a
+sticky PR comment (next to the preview link). A red check means fix it, not
+loosen the threshold — see the site-audit skill. When a standard changes,
+update the skill, `check.sh` or `tools/audit/config.mjs` in the same PR.

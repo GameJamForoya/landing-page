@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 2px 12px -4px rgba(2, 79, 70, 0.4);
+  box-shadow: 0 2px 12px -4px color-mix(in srgb, var(--brand-teal-darker) 40%, transparent);
 }
 
 /* The bar's teal lives on its own layer rather than on .header itself, so the
@@ -51,7 +51,7 @@
   letter-spacing: var(--tracking-wide);
   color: var(--on-teal);
 }
-.nav__logo:hover { color: #fff; }
+.nav__logo:hover { color: var(--on-dark); }
 .nav__logo-img { height: 2.25rem; width: auto; }   /* used once the logo image is wired in */
 
 .nav__menu {
@@ -67,8 +67,8 @@
   border-radius: var(--radius-full);
   color: var(--on-teal-muted);
 }
-.nav__link:hover { color: #fff; background: rgba(244, 244, 244, 0.14); }
-.nav__link--active { color: #fff; background: rgba(244, 244, 244, 0.20); }
+.nav__link:hover { color: var(--on-dark); background: color-mix(in srgb, var(--brand-white) 14%, transparent); }
+.nav__link--active { color: var(--on-dark); background: color-mix(in srgb, var(--brand-white) 20%, transparent); }
 
 /* --- Mobile toggle (hidden on desktop) --- */
 .nav__toggle {
@@ -88,7 +88,19 @@
   transition: transform var(--transition), opacity var(--transition);
 }
 
+/* Phones. The slide-down panel and the hamburger only exist when JS can run
+   it (`scripting: enabled`). With JS off — or in a browser without the
+   `scripting` media feature — the menu stays visible and wraps under the
+   logo, so every link is reachable (progressive enhancement). Without this
+   split, no-JS visitors got a permanently hidden menu and no way to open it. */
 @media (max-width: 720px) {
+  .nav { flex-wrap: wrap; }
+  .nav__menu { flex-wrap: wrap; }
+  .nav__link { white-space: nowrap; }
+}
+
+@media (max-width: 720px) and (scripting: enabled) {
+  .nav { flex-wrap: nowrap; }
   .nav__toggle { display: flex; }
 
   .nav__menu {

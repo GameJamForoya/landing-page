@@ -19,6 +19,15 @@ module.exports = {
   // has to be visible in the address for the Google for Nonprofits
   // verification, which has complained about its absence before. It stays.
   address: "Lygnesvegur 11, 660 Søldarfjørður, Føroyar",
+  // The same address split up for structured data (JSON-LD on the homepage).
+  // Keep in sync with `address` above.
+  postalAddress: {
+    streetAddress: "Lygnesvegur 11",
+    postalCode: "660",
+    addressLocality: "Søldarfjørður",
+    addressCountry: "FO",
+  },
+  foundingDate: "2022-07-13", // Viðtøkur signed (Organization Profile)
   // The address published on the current gj.fo. NB(Hanna): the Usable sponsor
   // answer sheet still lists gamejamfo@gmail.com — confirm which is primary.
   email: "info@gj.fo",
@@ -40,6 +49,15 @@ module.exports = {
   // sticky header instead of showing a darker strip above the site.
   // Keep in sync with --brand-teal in styles/main.css.
   themeColor: "#039685",
+
+  // Social share image (og:image). Baked to /img/og-image.jpg at 1200 px wide
+  // by .eleventy.js; swap `src` to change what shared links show.
+  ogImage: {
+    src: "src/assets/images/event-recap-poster-2026.jpg",
+    width: 1200,
+    height: 675,
+    alt: "Fólk arbeiða við telduspølum á GameJam Føroya 2026",
+  },
 
   // Default SEO copy — pages can override via front matter (title/description).
   description:

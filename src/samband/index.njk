@@ -36,7 +36,7 @@ description: Fá samband við GameJam Føroya — teldupostur, telefon og adress
         <li>
           <a class="contact__method" href="tel:{{ site.phone | replace(' ', '') }}">
             <span class="contact__label">Telefon</span>
-            <span class="contact__value">{{ site.phone }}</span>
+            <span class="contact__value">{{ site.phone | replace(' ', '&nbsp;') | safe }}</span>
           </a>
         </li>
       </ul>

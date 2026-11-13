@@ -14,7 +14,13 @@
     "start": "eleventy --serve",
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "clean": "rm -rf _site"
+    "clean": "rm -rf _site",
+    "lint:css": "stylelint \"src/styles/**/*.css\"",
+    "lint:html": "eleventy && html-validate \"_site/**/*.html\"",
+    "lint": "npm run lint:css && npm run lint:html",
+    "check": "bash .claude/skills/review-standards/check.sh",
+    "audit": "node tools/audit/audit.mjs",
+    "audit:fast": "node tools/audit/audit.mjs --no-lighthouse"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -22,5 +28,13 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.0",
+    "chrome-launcher": "^1.2.3",
+    "html-validate": "^10.9.0",
+    "lighthouse": "^12.8.2",
+    "puppeteer-core": "^24.43.1",
+    "stylelint": "^17.16.0"
   }
 }
