@@ -28,6 +28,20 @@
   <meta property="og:description" content="{{ description or site.description }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:locale" content="fo_FO">
+  {%- if site.ogImage %}
+  <meta property="og:image" content="{{ site.url }}/img/og-image.jpg">
+  <meta property="og:image:width" content="{{ site.ogImage.width }}">
+  <meta property="og:image:height" content="{{ site.ogImage.height }}">
+  <meta property="og:image:alt" content="{{ site.ogImage.alt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {%- endif %}
+
+  {#- Structured data (schema.org) on the homepage: who GameJam Føroya is, for
+      search engines and AI crawlers. Built in _data/structuredData.js from site.js —
+      never hand-edit facts here. A JSON data block, not script: the inline-script rule allows it. -#}
+  {%- if page.url == "/" %}
+  <script type="application/ld+json">{{ structuredData | dump | safe }}</script>
+  {%- endif %}
 
   {#- Favicon: generated from the logo once supplied, else the placeholder SVG -#}
   {%- if assets.hasLogo %}

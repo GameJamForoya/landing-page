@@ -121,6 +121,22 @@ module.exports = function (eleventyConfig) {
     }
   );
 
+  /* ---- Social share image -----------------------------------------------
+     Bake site.ogImage.src to a single 1200 px JPEG with a stable name
+     (/img/og-image.jpg) for og:image / twitter:image. */
+  eleventyConfig.on("eleventy.before", async () => {
+    const { ogImage } = require("./src/_data/site.js");
+    if (!ogImage || !fs.existsSync(ogImage.src)) return;
+    await Image(ogImage.src, {
+      widths: [ogImage.width],
+      formats: ["jpeg"],
+      outputDir: "./_site/img/",
+      urlPath: "/img/",
+      sharpJpegOptions: { quality: 80, mozjpeg: true },
+      filenameFormat: () => "og-image.jpg",
+    });
+  });
+
   /* ---- Favicon generation ----------------------------------------------
      If the logo source exists, bake favicon PNGs with stable names into
      /img/. Guarded so the build works fine before the file is supplied. */

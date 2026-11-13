@@ -24,7 +24,7 @@
       <p class="footer__heading">Samband</p>
       <ul class="footer__links" role="list">
         <li><a href="mailto:{{ site.email }}" class="footer__link">{{ site.email }}</a></li>
-        <li><a href="tel:{{ site.phone | replace(' ', '') }}" class="footer__link">{{ site.phone }}</a></li>
+        <li><a href="tel:{{ site.phone | replace(' ', '') }}" class="footer__link">{{ site.phone | replace(' ', '&nbsp;') | safe }}</a></li>
       </ul>
     </div>
 

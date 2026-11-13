@@ -25,7 +25,7 @@
   font-size: var(--text-2xl);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: #fff;
+  color: var(--on-dark);
   margin-bottom: var(--space-md);
 }
 
@@ -42,7 +42,7 @@
   font-size: var(--text-sm);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--on-dark);
   margin-bottom: var(--space-sm);
 }
 
@@ -55,7 +55,7 @@
 }
 
 .footer__link { color: var(--on-teal-muted); }
-.footer__link:hover { color: #fff; }
+.footer__link:hover { color: var(--on-dark); }
 
 .footer__social {
   list-style: none;
@@ -74,9 +74,9 @@
   transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
 .footer__social-link:hover {
-  background: rgba(244, 244, 244, 0.14);
-  border-color: #fff;
-  color: #fff;
+  background: color-mix(in srgb, var(--brand-white) 14%, transparent);
+  border-color: var(--on-dark);
+  color: var(--on-dark);
 }
 
 /* --- Bottom bar: copyright left, social links right --- */

@@ -39,14 +39,14 @@
   height: 2.5rem;
   border: 1px solid var(--on-teal-border);
   border-radius: var(--radius-full);
-  background: rgba(2, 79, 70, 0.35);
+  background: color-mix(in srgb, var(--brand-teal-darker) 35%, transparent);
   color: var(--on-teal);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
   transition: background var(--transition);
 }
-.game__close:hover { background: rgba(2, 79, 70, 0.6); }
+.game__close:hover { background: color-mix(in srgb, var(--brand-teal-darker) 60%, transparent); }
 
 .game__msg {
   position: absolute;
@@ -64,7 +64,7 @@
   font-size: var(--text-3xl);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: #fff;
+  color: var(--on-dark);
 }
 
 .game__msg-sub { color: var(--on-teal-muted); margin-bottom: var(--space-lg); }

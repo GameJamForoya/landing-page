@@ -110,6 +110,14 @@
   }
 
   for (var g = 0; g < gameTriggers.length; g++) {
+    // Triggers that should act as buttons say so with data-game-label; give
+    // them button semantics only now that JS can actually run the game.
+    var label = gameTriggers[g].getAttribute("data-game-label");
+    if (label) {
+      gameTriggers[g].setAttribute("role", "button");
+      gameTriggers[g].setAttribute("tabindex", "0");
+      gameTriggers[g].setAttribute("aria-label", label);
+    }
     gameTriggers[g].addEventListener("click", launchGame);
     gameTriggers[g].addEventListener("keydown", function (event) {
       if (event.key === "Enter" || event.key === " ") launchGame(event);
