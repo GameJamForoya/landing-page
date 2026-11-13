@@ -16,11 +16,11 @@
     "build": "eleventy",
     "clean": "rm -rf _site"
   },
-  "devDependencies": {
+  "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-img": "^6.0.4"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   }
 }

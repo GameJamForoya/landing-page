@@ -14,6 +14,12 @@
   <title>{% if title %}{{ title }} | {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {%- if isPreview %}
+  {#- A PR preview is a throwaway copy of the whole site on a public host. Keep
+      it out of search results so it never competes with gj.fo for its own
+      content. Set by .github/workflows/pr-preview.yml. -#}
+  <meta name="robots" content="noindex, nofollow">
+  {%- endif %}
 
   {#- Open Graph / social sharing -#}
   <meta property="og:type" content="website">
