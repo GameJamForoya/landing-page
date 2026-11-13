@@ -4,7 +4,7 @@ The public website for **GameJam Føroya**, the Faroese nonprofit promoting game
 culture and game development. Built as a static [Eleventy](https://www.11ty.dev/)
 site and deployed to GitHub Pages.
 
-> Working with an AI agent (Claude Code)? Read **[CLAUDE.md](./CLAUDE.md)** — it
+> Working with an AI agent? Read **[AGENTS.md](./AGENTS.md)** — it
 > covers the architecture, conventions, and the paired Usable knowledge base.
 
 ## Quick start
@@ -36,9 +36,15 @@ npm run dev     # dev server at http://localhost:8080 with live reload
 ## Deployment
 
 Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the site
-and publishes it to GitHub Pages. Enable it once under **Settings → Pages →
-Source → "GitHub Actions"**. For the custom domain, set it in Settings → Pages
-and add a `CNAME` file to `src/public/`.
+and pushes it to the `gh-pages` branch that GitHub Pages serves
+(**Settings → Pages → Source → "Deploy from a branch" → `gh-pages`**). The
+custom domain is set in Settings → Pages and kept by `src/public/CNAME`.
+
+### PR previews
+
+Every pull request gets a live preview at `https://gj.fo/pr-preview/pr-<number>/`,
+linked in a PR comment and removed when the PR closes — so visual changes can
+be checked before they reach gj.fo. See [AGENTS.md §4](./AGENTS.md).
 
 ## Hidden review mode (for proof-readers)
 
@@ -61,7 +67,7 @@ never download it) and `src/styles/components/review.css`.
 
 ## Project structure
 
-See [CLAUDE.md §5](./CLAUDE.md#5-project-structure) for the annotated tree.
+See [AGENTS.md §5](./AGENTS.md#5-project-structure) for the annotated tree.
 
 ## License
 

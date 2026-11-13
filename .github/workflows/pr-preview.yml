@@ -1,0 +1,81 @@
+name: PR Preview
+
+# Every pull request into main gets its own live copy of the site at
+#   <pages url>/pr-preview/pr-<number>/
+# and a sticky comment on the PR with the link (and a QR code for phones).
+# The preview updates on every push and is deleted when the PR is merged or
+# closed. Use it to review visual changes before they reach gj.fo, or to compare two
+# designs: one branch + PR each, merge the one that wins, close the other.
+#
+# Previews are built with PREVIEW_BUILD=1, so every preview page is noindex
+# (base.njk). Pull requests from forks are skipped (the token can't
+# push for them).
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: write # push the preview to the gh-pages branch
+  pull-requests: write # post/update the preview comment
+  pages: read # poll /pages/builds so the comment waits until the preview is live
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install build dependencies only
+        if: github.event.action != 'closed'
+        run: npm ci --omit=dev # no lint/audit tooling needed to build
+
+      - name: Build preview
+        if: github.event.action != 'closed'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PREVIEW_BUILD: "1"
+        run: |
+          # Same base-path rule as .eleventy.js: "/" on a custom domain,
+          # the repo subfolder on the plain github.io URL — plus the preview dir.
+          if [ -f src/public/CNAME ]; then base="/"; else base="/${GITHUB_REPOSITORY#*/}/"; fi
+          export PATH_PREFIX="${base}pr-preview/pr-${PR_NUMBER}/"
+          echo "Building with PATH_PREFIX=$PATH_PREFIX"
+          npm run build
+          # Only the root CNAME counts for Pages; don't ship a stray copy.
+          rm -f _site/CNAME
+
+      # The action's default link is <owner>.github.io/<repo>/…, which only
+      # reaches the preview through GitHub's redirect to the custom domain.
+      # Link the real domain (from CNAME) so the comment shows gj.fo/….
+      - name: Resolve the public site URL
+        id: site
+        run: |
+          if [ -f src/public/CNAME ]; then
+            echo "base=$(tr -d '[:space:]' < src/public/CNAME)" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy or remove the preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          pages-base-url: ${{ steps.site.outputs.base }}
+          source-dir: _site
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto # deploy on open/push, remove on close
+          wait-for-pages-deployment: true # so the link works when it's posted
